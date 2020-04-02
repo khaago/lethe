@@ -1,0 +1,51 @@
+// Lethe remembers so your soul can ride in oblivion.
+// MVP:
+// 1. Chunks messages by default.
+// 2. Load balances between all clients.
+// 3. Client discovery is handled by the broker.
+// 4. TLS authentication keeps things simple and secure.
+// 5. Internally uses a grpc implementation for painless integration with any language client.
+// post-MVP: broker cluster management, topic level authentication
+
+
+// Streams are first class citizens in Lethe Broker. You can send a single message 
+// or a stream of messages, but they can only be consumed 
+// as streams by the listeners.
+
+
+syntax = "proto3";
+
+package lethe;
+
+// Base broker template. For most use cases, this base broker will suffice.
+service Broker {
+  // send an event and receive an ack
+  // A single message also gets multicasted as a stream
+  rpc Dispatch (Event) returns (Ack) {}
+  // send a stream of events and receive a corresponding stream of acks
+  rpc DispatchStream (stream Event) returns (stream Ack) {}
+  // listen to a Topic and get a stream of events 
+  rpc Listen (Topic) returns (stream Event) {}
+}
+
+message Event {
+  string msg_id = 1;
+  int32 part = 2;  
+  Topic topic = 3;
+  string msg = 4;
+  int64 time = 5;
+  // chunk size in bytes (default 256)
+  int32 chunksize = 6;
+} 
+
+message Topic {
+  string name = 2;
+  // dest_patterns = dns compliant name of zero or more destinations. zero destinations mean all current listeners
+  repeated string dest_patterns = 3;
+}
+
+message Ack {
+  string ack_id = 1;
+  string msg_id = 2;
+  int64 part = 3; 
+}
