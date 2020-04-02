@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/aashishbhattarai/lethe/server"
+	"github.com/khaago/lethe/server"
 )
 
 func main() {

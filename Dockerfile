@@ -19,4 +19,6 @@ RUN protoc -I broker/ broker/broker.proto --go_out=plugins=grpc:broker
 
 RUN go build -o main .
 
+EXPOSE 50051
+
 CMD ["./main"]
