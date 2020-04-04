@@ -7,18 +7,21 @@ LABEL maintainer="khaago@protonmail.com"
 
 WORKDIR /app
 
-COPY go.mod install.sh ./
+COPY go.mod go.sum dinstall ./
 
-RUN chmod +x install.sh
+RUN chmod +x dinstall
 
-RUN ./install.sh
+RUN ./dinstall
 
 COPY . .
 
 RUN protoc -I broker/ broker/broker.proto --go_out=plugins=grpc:broker
 
-RUN go build -o main .
+RUN ls -ltr broker/
 
-EXPOSE 50051
+RUN go install
 
-CMD ["./main"]
+EXPOSE ${port}
+
+ENTRYPOINT lethe -port=${port}
+

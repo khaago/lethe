@@ -47,5 +47,5 @@ message Topic {
 message Ack {
   string ack_id = 1;
   string msg_id = 2;
-  int64 part = 3; 
+  int32 part = 3; 
 }

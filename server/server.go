@@ -8,6 +8,7 @@ import (
 
 	pb "github.com/khaago/lethe/broker"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 var (
@@ -26,33 +27,29 @@ func newServer() *brokerServer {
 	return s
 }
 
-func start() {
+// Run starts a broker
+func Run() {
 	flag.Parse()
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))
+	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", *port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	var opts []grpc.ServerOption
-	// if *tls {
-	// 	if *certFile == "" {
-	// 		*certFile = testdata.Path("server1.pem")
-	// 	}
-	// 	if *keyFile == "" {
-	// 		*keyFile = testdata.Path("server1.key")
-	// 	}
-	// 	creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
-	// 	if err != nil {
-	// 		log.Fatalf("Failed to generate credentials %v", err)
-	// 	}
-	// 	opts = []grpc.ServerOption{grpc.Creds(creds)}
-	// }
+	if *tls {
+		// if *certFile == "" {
+		// 	*certFile = testdata.Path("server1.pem")
+		// }
+		// if *keyFile == "" {
+		// 	*keyFile = testdata.Path("server1.key")
+		// }
+		creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
+		if err != nil {
+			log.Fatalf("Failed to generate credentials %v", err)
+		}
+		opts = []grpc.ServerOption{grpc.Creds(creds)}
+	}
 	grpcServer := grpc.NewServer(opts...)
 	pb.RegisterBrokerServer(grpcServer, newServer())
-	fmt.Println("Server started")
+	log.Println("BrokerServer is registered")
 	grpcServer.Serve(lis)
-}
-
-// Run starts a broker
-func Run() {
-	start()
 }
