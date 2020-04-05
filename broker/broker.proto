@@ -24,9 +24,9 @@ service Broker {
 
   // topics
   // list topics
-  rpc ListTopic(ListTopicOptions) returns (Topic) {}
+  rpc ListTopic(ListTopicOptions) returns (ListTopicResults) {}
   // create new topic
-  rpc CreateTopic(CreateTopicOptions) returns (Topic) {}
+  rpc CreateTopic(CreateTopicOptions) returns (CreateTopicResults) {}
   // delete existing topic
   rpc DeleteTopic(DeleteTopicOptions) returns (DeleteTopicResult){}
 }
@@ -38,13 +38,17 @@ message SubscribeOptions {
 
 message DispatchOptions {
   repeated string topics  = 1;
-  Event events = 2;
+  Event event = 2;
 }
 
 // regex
 message ListTopicOptions {
   string patterns = 1;
   repeated Tag tags = 2;
+}
+
+message ListTopicResults {
+  repeated Topic topics = 1;
 }
 
 message RegistrationRequest {
@@ -69,6 +73,10 @@ message CreateTopicOptions {
   repeated Tag tags = 6;
 }
 
+message CreateTopicResults {
+  Topic topic = 1;
+}
+
 // delete the topic and all messages in it
 message DeleteTopicOptions {
   string pattern = 1;
@@ -82,7 +90,7 @@ message DeleteTopicResult {
 message Topic {
   string name = 1;
   string created = 2;
-  string retention = 3;
+  int64 retention = 3;
   string description = 4;
   TopicOptions options = 5;
   repeated Tag tags = 6;
