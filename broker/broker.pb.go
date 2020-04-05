@@ -24,90 +24,173 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type Event struct {
-	MsgId string `protobuf:"bytes,1,opt,name=msg_id,json=msgId,proto3" json:"msg_id,omitempty"`
-	Part  int32  `protobuf:"varint,2,opt,name=part,proto3" json:"part,omitempty"`
-	Topic *Topic `protobuf:"bytes,3,opt,name=topic,proto3" json:"topic,omitempty"`
-	Msg   string `protobuf:"bytes,4,opt,name=msg,proto3" json:"msg,omitempty"`
-	Time  int64  `protobuf:"varint,5,opt,name=time,proto3" json:"time,omitempty"`
-	// chunk size in bytes (default 256)
-	Chunksize            int32    `protobuf:"varint,6,opt,name=chunksize,proto3" json:"chunksize,omitempty"`
+// Ready = created just now, Active = has or ever had at least one message, Dead = dead
+// Dead topics deletion is left to the implementation
+type TopicState int32
+
+const (
+	TopicState_READY  TopicState = 0
+	TopicState_ACTIVE TopicState = 1
+	TopicState_DEAD   TopicState = 2
+)
+
+var TopicState_name = map[int32]string{
+	0: "READY",
+	1: "ACTIVE",
+	2: "DEAD",
+}
+
+var TopicState_value = map[string]int32{
+	"READY":  0,
+	"ACTIVE": 1,
+	"DEAD":   2,
+}
+
+func (x TopicState) String() string {
+	return proto.EnumName(TopicState_name, int32(x))
+}
+
+func (TopicState) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{0}
+}
+
+// offest - negative offset means latest
+type ListenOptions struct {
+	TopicName            string   `protobuf:"bytes,1,opt,name=topic_name,json=topicName,proto3" json:"topic_name,omitempty"`
+	Offset               int32    `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Event) Reset()         { *m = Event{} }
-func (m *Event) String() string { return proto.CompactTextString(m) }
-func (*Event) ProtoMessage()    {}
-func (*Event) Descriptor() ([]byte, []int) {
+func (m *ListenOptions) Reset()         { *m = ListenOptions{} }
+func (m *ListenOptions) String() string { return proto.CompactTextString(m) }
+func (*ListenOptions) ProtoMessage()    {}
+func (*ListenOptions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f209535e190f2bed, []int{0}
 }
 
-func (m *Event) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Event.Unmarshal(m, b)
+func (m *ListenOptions) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ListenOptions.Unmarshal(m, b)
 }
-func (m *Event) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Event.Marshal(b, m, deterministic)
+func (m *ListenOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ListenOptions.Marshal(b, m, deterministic)
 }
-func (m *Event) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Event.Merge(m, src)
+func (m *ListenOptions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListenOptions.Merge(m, src)
 }
-func (m *Event) XXX_Size() int {
-	return xxx_messageInfo_Event.Size(m)
+func (m *ListenOptions) XXX_Size() int {
+	return xxx_messageInfo_ListenOptions.Size(m)
 }
-func (m *Event) XXX_DiscardUnknown() {
-	xxx_messageInfo_Event.DiscardUnknown(m)
+func (m *ListenOptions) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListenOptions.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Event proto.InternalMessageInfo
+var xxx_messageInfo_ListenOptions proto.InternalMessageInfo
 
-func (m *Event) GetMsgId() string {
+func (m *ListenOptions) GetTopicName() string {
 	if m != nil {
-		return m.MsgId
+		return m.TopicName
 	}
 	return ""
 }
 
-func (m *Event) GetPart() int32 {
+func (m *ListenOptions) GetOffset() int32 {
 	if m != nil {
-		return m.Part
+		return m.Offset
 	}
 	return 0
 }
 
-func (m *Event) GetTopic() *Topic {
-	if m != nil {
-		return m.Topic
-	}
-	return nil
+type TopicOptions struct {
+	TopicName            string   `protobuf:"bytes,1,opt,name=topic_name,json=topicName,proto3" json:"topic_name,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Event) GetMsg() string {
+func (m *TopicOptions) Reset()         { *m = TopicOptions{} }
+func (m *TopicOptions) String() string { return proto.CompactTextString(m) }
+func (*TopicOptions) ProtoMessage()    {}
+func (*TopicOptions) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{1}
+}
+
+func (m *TopicOptions) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TopicOptions.Unmarshal(m, b)
+}
+func (m *TopicOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TopicOptions.Marshal(b, m, deterministic)
+}
+func (m *TopicOptions) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TopicOptions.Merge(m, src)
+}
+func (m *TopicOptions) XXX_Size() int {
+	return xxx_messageInfo_TopicOptions.Size(m)
+}
+func (m *TopicOptions) XXX_DiscardUnknown() {
+	xxx_messageInfo_TopicOptions.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TopicOptions proto.InternalMessageInfo
+
+func (m *TopicOptions) GetTopicName() string {
 	if m != nil {
-		return m.Msg
+		return m.TopicName
 	}
 	return ""
 }
 
-func (m *Event) GetTime() int64 {
-	if m != nil {
-		return m.Time
-	}
-	return 0
+type DeleteResult struct {
+	TopicName            string   `protobuf:"bytes,1,opt,name=topic_name,json=topicName,proto3" json:"topic_name,omitempty"`
+	Success              bool     `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Event) GetChunksize() int32 {
+func (m *DeleteResult) Reset()         { *m = DeleteResult{} }
+func (m *DeleteResult) String() string { return proto.CompactTextString(m) }
+func (*DeleteResult) ProtoMessage()    {}
+func (*DeleteResult) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{2}
+}
+
+func (m *DeleteResult) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteResult.Unmarshal(m, b)
+}
+func (m *DeleteResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteResult.Marshal(b, m, deterministic)
+}
+func (m *DeleteResult) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteResult.Merge(m, src)
+}
+func (m *DeleteResult) XXX_Size() int {
+	return xxx_messageInfo_DeleteResult.Size(m)
+}
+func (m *DeleteResult) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteResult.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteResult proto.InternalMessageInfo
+
+func (m *DeleteResult) GetTopicName() string {
 	if m != nil {
-		return m.Chunksize
+		return m.TopicName
 	}
-	return 0
+	return ""
+}
+
+func (m *DeleteResult) GetSuccess() bool {
+	if m != nil {
+		return m.Success
+	}
+	return false
 }
 
 type Topic struct {
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	// dest_patterns = dns compliant name of zero or more destinations. zero destinations mean all current listeners
-	DestPatterns         []string `protobuf:"bytes,3,rep,name=dest_patterns,json=destPatterns,proto3" json:"dest_patterns,omitempty"`
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Offset               int32    `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -117,7 +200,7 @@ func (m *Topic) Reset()         { *m = Topic{} }
 func (m *Topic) String() string { return proto.CompactTextString(m) }
 func (*Topic) ProtoMessage()    {}
 func (*Topic) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{1}
+	return fileDescriptor_f209535e190f2bed, []int{3}
 }
 
 func (m *Topic) XXX_Unmarshal(b []byte) error {
@@ -145,17 +228,83 @@ func (m *Topic) GetName() string {
 	return ""
 }
 
-func (m *Topic) GetDestPatterns() []string {
+func (m *Topic) GetOffset() int32 {
 	if m != nil {
-		return m.DestPatterns
+		return m.Offset
 	}
-	return nil
+	return 0
+}
+
+type Event struct {
+	MsgId                string   `protobuf:"bytes,1,opt,name=msg_id,json=msgId,proto3" json:"msg_id,omitempty"`
+	TopicName            string   `protobuf:"bytes,3,opt,name=topic_name,json=topicName,proto3" json:"topic_name,omitempty"`
+	Msg                  string   `protobuf:"bytes,4,opt,name=msg,proto3" json:"msg,omitempty"`
+	Time                 int64    `protobuf:"varint,5,opt,name=time,proto3" json:"time,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Event) Reset()         { *m = Event{} }
+func (m *Event) String() string { return proto.CompactTextString(m) }
+func (*Event) ProtoMessage()    {}
+func (*Event) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{4}
+}
+
+func (m *Event) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Event.Unmarshal(m, b)
+}
+func (m *Event) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Event.Marshal(b, m, deterministic)
+}
+func (m *Event) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Event.Merge(m, src)
+}
+func (m *Event) XXX_Size() int {
+	return xxx_messageInfo_Event.Size(m)
+}
+func (m *Event) XXX_DiscardUnknown() {
+	xxx_messageInfo_Event.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Event proto.InternalMessageInfo
+
+func (m *Event) GetMsgId() string {
+	if m != nil {
+		return m.MsgId
+	}
+	return ""
+}
+
+func (m *Event) GetTopicName() string {
+	if m != nil {
+		return m.TopicName
+	}
+	return ""
+}
+
+func (m *Event) GetMsg() string {
+	if m != nil {
+		return m.Msg
+	}
+	return ""
+}
+
+func (m *Event) GetTime() int64 {
+	if m != nil {
+		return m.Time
+	}
+	return 0
 }
 
 type Ack struct {
 	AckId                string   `protobuf:"bytes,1,opt,name=ack_id,json=ackId,proto3" json:"ack_id,omitempty"`
 	MsgId                string   `protobuf:"bytes,2,opt,name=msg_id,json=msgId,proto3" json:"msg_id,omitempty"`
-	Part                 int32    `protobuf:"varint,3,opt,name=part,proto3" json:"part,omitempty"`
+	TopicName            string   `protobuf:"bytes,3,opt,name=topic_name,json=topicName,proto3" json:"topic_name,omitempty"`
+	Time                 int64    `protobuf:"varint,4,opt,name=time,proto3" json:"time,omitempty"`
+	Success              string   `protobuf:"bytes,5,opt,name=success,proto3" json:"success,omitempty"`
+	ErrorMsg             string   `protobuf:"bytes,6,opt,name=error_msg,json=errorMsg,proto3" json:"error_msg,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -165,7 +314,7 @@ func (m *Ack) Reset()         { *m = Ack{} }
 func (m *Ack) String() string { return proto.CompactTextString(m) }
 func (*Ack) ProtoMessage()    {}
 func (*Ack) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{2}
+	return fileDescriptor_f209535e190f2bed, []int{5}
 }
 
 func (m *Ack) XXX_Unmarshal(b []byte) error {
@@ -200,16 +349,41 @@ func (m *Ack) GetMsgId() string {
 	return ""
 }
 
-func (m *Ack) GetPart() int32 {
+func (m *Ack) GetTopicName() string {
 	if m != nil {
-		return m.Part
+		return m.TopicName
+	}
+	return ""
+}
+
+func (m *Ack) GetTime() int64 {
+	if m != nil {
+		return m.Time
 	}
 	return 0
 }
 
+func (m *Ack) GetSuccess() string {
+	if m != nil {
+		return m.Success
+	}
+	return ""
+}
+
+func (m *Ack) GetErrorMsg() string {
+	if m != nil {
+		return m.ErrorMsg
+	}
+	return ""
+}
+
 func init() {
-	proto.RegisterType((*Event)(nil), "lethe.Event")
+	proto.RegisterEnum("lethe.TopicState", TopicState_name, TopicState_value)
+	proto.RegisterType((*ListenOptions)(nil), "lethe.ListenOptions")
+	proto.RegisterType((*TopicOptions)(nil), "lethe.TopicOptions")
+	proto.RegisterType((*DeleteResult)(nil), "lethe.DeleteResult")
 	proto.RegisterType((*Topic)(nil), "lethe.Topic")
+	proto.RegisterType((*Event)(nil), "lethe.Event")
 	proto.RegisterType((*Ack)(nil), "lethe.Ack")
 }
 
@@ -218,27 +392,34 @@ func init() {
 }
 
 var fileDescriptor_f209535e190f2bed = []byte{
-	// 307 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x91, 0xcf, 0x4a, 0x33, 0x31,
-	0x14, 0xc5, 0x9b, 0xa6, 0x19, 0xbe, 0xb9, 0x5f, 0x15, 0xb9, 0x20, 0x84, 0xe2, 0x62, 0x18, 0x41,
-	0xb2, 0x2a, 0xa5, 0xbe, 0x80, 0x15, 0x45, 0x0a, 0x2e, 0x64, 0x74, 0x5f, 0xd2, 0x4c, 0xe8, 0x0c,
-	0xe3, 0xfc, 0x61, 0x72, 0x75, 0xe1, 0x33, 0xf8, 0x04, 0x3e, 0xad, 0x24, 0xb6, 0xb4, 0x05, 0x71,
-	0x77, 0xe6, 0xcc, 0xbd, 0x27, 0xf9, 0x9d, 0xc0, 0x78, 0xdd, 0xb7, 0x95, 0xed, 0xa7, 0x5d, 0xdf,
-	0x52, 0x8b, 0xe2, 0xd5, 0x52, 0x61, 0xd3, 0x2f, 0x06, 0xe2, 0xfe, 0xdd, 0x36, 0x84, 0xe7, 0x10,
-	0xd5, 0x6e, 0xb3, 0x2a, 0x73, 0xc9, 0x12, 0xa6, 0xe2, 0x4c, 0xd4, 0x6e, 0xb3, 0xcc, 0x11, 0x61,
-	0xd4, 0xe9, 0x9e, 0xe4, 0x30, 0x61, 0x4a, 0x64, 0x41, 0x63, 0x0a, 0x82, 0xda, 0xae, 0x34, 0x92,
-	0x27, 0x4c, 0xfd, 0x9f, 0x8f, 0xa7, 0x21, 0x6b, 0xfa, 0xe2, 0xbd, 0xec, 0xe7, 0x17, 0x9e, 0x01,
-	0xaf, 0xdd, 0x46, 0x8e, 0x42, 0x96, 0x97, 0x3e, 0x89, 0xca, 0xda, 0x4a, 0x91, 0x30, 0xc5, 0xb3,
-	0xa0, 0xf1, 0x02, 0x62, 0x53, 0xbc, 0x35, 0x95, 0x2b, 0x3f, 0xac, 0x8c, 0xc2, 0x11, 0x7b, 0x23,
-	0xbd, 0x01, 0x11, 0x32, 0xfd, 0x6a, 0xa3, 0x6b, 0x1b, 0x2e, 0x11, 0x67, 0x41, 0xe3, 0x25, 0x9c,
-	0xe4, 0xd6, 0xd1, 0xaa, 0xd3, 0x44, 0xb6, 0x6f, 0x9c, 0xe4, 0x09, 0x57, 0x71, 0x36, 0xf6, 0xe6,
-	0xd3, 0xd6, 0x4b, 0x1f, 0x80, 0x2f, 0x4c, 0xe5, 0xd9, 0xb4, 0xa9, 0x0e, 0xd8, 0xb4, 0xa9, 0x96,
-	0xf9, 0x01, 0xf2, 0xf0, 0x37, 0x64, 0xbe, 0x47, 0x9e, 0x7f, 0x32, 0x88, 0x6e, 0x43, 0x7f, 0x78,
-	0x05, 0xff, 0xee, 0x4a, 0xd7, 0x69, 0x32, 0x05, 0xee, 0xd0, 0x43, 0x85, 0x13, 0xd8, 0x7e, 0x2d,
-	0x4c, 0x95, 0x0e, 0x70, 0x06, 0xa7, 0xbb, 0xb9, 0x67, 0xea, 0xad, 0xae, 0xff, 0x9a, 0x56, 0x6c,
-	0xc6, 0x50, 0x41, 0xf4, 0x58, 0x3a, 0xb2, 0x0d, 0x1e, 0x55, 0x3a, 0x39, 0xda, 0x4b, 0x07, 0x33,
-	0xb6, 0x8e, 0xc2, 0x23, 0x5e, 0x7f, 0x07, 0x00, 0x00, 0xff, 0xff, 0x3b, 0x48, 0xc6, 0xce, 0xd4,
-	0x01, 0x00, 0x00,
+	// 421 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x93, 0xdb, 0x6a, 0xdb, 0x40,
+	0x10, 0x86, 0xb5, 0xb6, 0x57, 0xb5, 0x27, 0x6e, 0x31, 0xd3, 0x03, 0x22, 0xa5, 0x60, 0xf6, 0xa2,
+	0x98, 0x42, 0x8c, 0x49, 0xae, 0x7a, 0xa9, 0x46, 0x6a, 0x31, 0xf4, 0x00, 0x4a, 0x28, 0xf4, 0xca,
+	0x6c, 0xd6, 0x13, 0x45, 0xc8, 0x3a, 0xb0, 0xbb, 0xe9, 0x0b, 0xf4, 0x39, 0xfa, 0xae, 0x45, 0x6b,
+	0xa9, 0x55, 0x02, 0x75, 0x9b, 0xbb, 0x99, 0xd9, 0xff, 0xd7, 0x37, 0x0c, 0xbf, 0x60, 0x7a, 0xa5,
+	0xab, 0x9c, 0xf4, 0xb2, 0xd6, 0x95, 0xad, 0x90, 0xef, 0xc8, 0xde, 0x90, 0x78, 0x0f, 0x8f, 0x3f,
+	0x66, 0xc6, 0x52, 0xf9, 0xa5, 0xb6, 0x59, 0x55, 0x1a, 0x7c, 0x05, 0x60, 0xab, 0x3a, 0x53, 0x9b,
+	0x52, 0x16, 0x14, 0xb0, 0x39, 0x5b, 0x4c, 0x92, 0x89, 0x9b, 0x7c, 0x96, 0x05, 0xe1, 0x0b, 0xf0,
+	0xab, 0xeb, 0x6b, 0x43, 0x36, 0x18, 0xcc, 0xd9, 0x82, 0x27, 0x6d, 0x27, 0x4e, 0x60, 0x7a, 0xd9,
+	0x88, 0xfe, 0xef, 0x33, 0xe2, 0x03, 0x4c, 0x23, 0xda, 0x91, 0xa5, 0x84, 0xcc, 0xed, 0xce, 0xfe,
+	0x8b, 0x1a, 0xc0, 0x23, 0x73, 0xab, 0x14, 0x19, 0xe3, 0xb0, 0xe3, 0xa4, 0x6b, 0xc5, 0x19, 0x70,
+	0xc7, 0x45, 0x84, 0x51, 0xcf, 0xeb, 0xea, 0xbf, 0x2e, 0xab, 0x80, 0xc7, 0xdf, 0xa9, 0xb4, 0xf8,
+	0x1c, 0xfc, 0xc2, 0xa4, 0x9b, 0x6c, 0xdb, 0xda, 0x78, 0x61, 0xd2, 0xf5, 0xf6, 0xde, 0x36, 0xc3,
+	0xfb, 0xdb, 0xcc, 0x60, 0x58, 0x98, 0x34, 0x18, 0xb9, 0x79, 0x53, 0x36, 0x70, 0x9b, 0x15, 0x14,
+	0xf0, 0x39, 0x5b, 0x0c, 0x13, 0x57, 0x8b, 0x9f, 0x0c, 0x86, 0xa1, 0xca, 0x1b, 0x86, 0x54, 0x79,
+	0x8f, 0x21, 0x55, 0xbe, 0xde, 0xf6, 0xd0, 0x83, 0x07, 0xa0, 0x3b, 0xd0, 0xe8, 0x0f, 0xa8, 0x7f,
+	0x1c, 0xee, 0xf4, 0x5d, 0x8b, 0x2f, 0x61, 0x42, 0x5a, 0x57, 0x7a, 0xd3, 0xac, 0xeb, 0xbb, 0xb7,
+	0xb1, 0x1b, 0x7c, 0x32, 0xe9, 0x9b, 0x13, 0x00, 0x77, 0xb9, 0x0b, 0x2b, 0x2d, 0xe1, 0x04, 0x78,
+	0x12, 0x87, 0xd1, 0xb7, 0x99, 0x87, 0x00, 0x7e, 0x78, 0x7e, 0xb9, 0xfe, 0x1a, 0xcf, 0x18, 0x8e,
+	0x61, 0x14, 0xc5, 0x61, 0x34, 0x1b, 0x9c, 0xfe, 0x18, 0x80, 0xff, 0xce, 0x05, 0x08, 0x5f, 0xc3,
+	0x38, 0xca, 0x4c, 0x2d, 0xad, 0xba, 0xc1, 0xe9, 0xd2, 0xe5, 0x68, 0xe9, 0xee, 0x79, 0x0c, 0x6d,
+	0x17, 0xaa, 0x5c, 0x78, 0xb8, 0x82, 0x27, 0x9d, 0xee, 0xc2, 0x6a, 0x92, 0xc5, 0x21, 0xf5, 0x82,
+	0xad, 0x18, 0xae, 0xc0, 0xdf, 0xa7, 0x11, 0x9f, 0xb5, 0x6f, 0x77, 0xc2, 0x79, 0x7c, 0xc7, 0x2f,
+	0xbc, 0x15, 0xc3, 0x53, 0x38, 0x3a, 0xd7, 0x24, 0x2d, 0xed, 0x53, 0xf0, 0xb4, 0x15, 0xf4, 0xb3,
+	0xf8, 0xdb, 0xe5, 0x86, 0xc2, 0xc3, 0xb7, 0x70, 0xb4, 0x0f, 0xdf, 0x01, 0x4f, 0x37, 0xec, 0xa7,
+	0x54, 0x78, 0x57, 0xbe, 0xfb, 0x79, 0xce, 0x7e, 0x05, 0x00, 0x00, 0xff, 0xff, 0xa3, 0xe3, 0x7c,
+	0x4c, 0x4c, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -258,8 +439,12 @@ type BrokerClient interface {
 	Dispatch(ctx context.Context, in *Event, opts ...grpc.CallOption) (*Ack, error)
 	// send a stream of events and receive a corresponding stream of acks
 	DispatchStream(ctx context.Context, opts ...grpc.CallOption) (Broker_DispatchStreamClient, error)
-	// listen to a Topic and get a stream of events
-	Listen(ctx context.Context, in *Topic, opts ...grpc.CallOption) (Broker_ListenClient, error)
+	// listen to a stream of a Topic from a given offset
+	Listen(ctx context.Context, in *ListenOptions, opts ...grpc.CallOption) (Broker_ListenClient, error)
+	// create new topic
+	CreateTopic(ctx context.Context, in *TopicOptions, opts ...grpc.CallOption) (*Topic, error)
+	// delete existing topic
+	DeleteTopic(ctx context.Context, in *TopicOptions, opts ...grpc.CallOption) (*DeleteResult, error)
 }
 
 type brokerClient struct {
@@ -310,7 +495,7 @@ func (x *brokerDispatchStreamClient) Recv() (*Ack, error) {
 	return m, nil
 }
 
-func (c *brokerClient) Listen(ctx context.Context, in *Topic, opts ...grpc.CallOption) (Broker_ListenClient, error) {
+func (c *brokerClient) Listen(ctx context.Context, in *ListenOptions, opts ...grpc.CallOption) (Broker_ListenClient, error) {
 	stream, err := c.cc.NewStream(ctx, &_Broker_serviceDesc.Streams[1], "/lethe.Broker/Listen", opts...)
 	if err != nil {
 		return nil, err
@@ -342,6 +527,24 @@ func (x *brokerListenClient) Recv() (*Event, error) {
 	return m, nil
 }
 
+func (c *brokerClient) CreateTopic(ctx context.Context, in *TopicOptions, opts ...grpc.CallOption) (*Topic, error) {
+	out := new(Topic)
+	err := c.cc.Invoke(ctx, "/lethe.Broker/CreateTopic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brokerClient) DeleteTopic(ctx context.Context, in *TopicOptions, opts ...grpc.CallOption) (*DeleteResult, error) {
+	out := new(DeleteResult)
+	err := c.cc.Invoke(ctx, "/lethe.Broker/DeleteTopic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BrokerServer is the server API for Broker service.
 type BrokerServer interface {
 	// send an event and receive an ack
@@ -349,8 +552,12 @@ type BrokerServer interface {
 	Dispatch(context.Context, *Event) (*Ack, error)
 	// send a stream of events and receive a corresponding stream of acks
 	DispatchStream(Broker_DispatchStreamServer) error
-	// listen to a Topic and get a stream of events
-	Listen(*Topic, Broker_ListenServer) error
+	// listen to a stream of a Topic from a given offset
+	Listen(*ListenOptions, Broker_ListenServer) error
+	// create new topic
+	CreateTopic(context.Context, *TopicOptions) (*Topic, error)
+	// delete existing topic
+	DeleteTopic(context.Context, *TopicOptions) (*DeleteResult, error)
 }
 
 // UnimplementedBrokerServer can be embedded to have forward compatible implementations.
@@ -363,8 +570,14 @@ func (*UnimplementedBrokerServer) Dispatch(ctx context.Context, req *Event) (*Ac
 func (*UnimplementedBrokerServer) DispatchStream(srv Broker_DispatchStreamServer) error {
 	return status.Errorf(codes.Unimplemented, "method DispatchStream not implemented")
 }
-func (*UnimplementedBrokerServer) Listen(req *Topic, srv Broker_ListenServer) error {
+func (*UnimplementedBrokerServer) Listen(req *ListenOptions, srv Broker_ListenServer) error {
 	return status.Errorf(codes.Unimplemented, "method Listen not implemented")
+}
+func (*UnimplementedBrokerServer) CreateTopic(ctx context.Context, req *TopicOptions) (*Topic, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTopic not implemented")
+}
+func (*UnimplementedBrokerServer) DeleteTopic(ctx context.Context, req *TopicOptions) (*DeleteResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteTopic not implemented")
 }
 
 func RegisterBrokerServer(s *grpc.Server, srv BrokerServer) {
@@ -416,7 +629,7 @@ func (x *brokerDispatchStreamServer) Recv() (*Event, error) {
 }
 
 func _Broker_Listen_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(Topic)
+	m := new(ListenOptions)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
@@ -436,6 +649,42 @@ func (x *brokerListenServer) Send(m *Event) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _Broker_CreateTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TopicOptions)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServer).CreateTopic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lethe.Broker/CreateTopic",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServer).CreateTopic(ctx, req.(*TopicOptions))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Broker_DeleteTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TopicOptions)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServer).DeleteTopic(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lethe.Broker/DeleteTopic",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServer).DeleteTopic(ctx, req.(*TopicOptions))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Broker_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "lethe.Broker",
 	HandlerType: (*BrokerServer)(nil),
@@ -443,6 +692,14 @@ var _Broker_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Dispatch",
 			Handler:    _Broker_Dispatch_Handler,
+		},
+		{
+			MethodName: "CreateTopic",
+			Handler:    _Broker_CreateTopic_Handler,
+		},
+		{
+			MethodName: "DeleteTopic",
+			Handler:    _Broker_DeleteTopic_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
