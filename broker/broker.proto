@@ -8,13 +8,11 @@ package lethe;
 
 // Base broker template.
 service Broker {
-  // producers
   // send an event to one or more topics and receive an ack
   rpc Dispatch (DispatchOptions) returns (Ack) {}
   // send a stream of events and receive a corresponding stream of acks
   rpc DispatchStream (stream DispatchOptions) returns (stream Ack) {}
 
-  // consumers
   // register a client
   rpc Register(RegistrationRequest) returns (RegistrationResponse) {}
   // susbcribe to a topic - tell the sever you want to receive events for a certain topic
@@ -22,7 +20,6 @@ service Broker {
   // listen to a topic for events
   rpc Listen (ListenOptions) returns (stream Event) {}
 
-  // topics
   // list topics
   rpc ListTopic(ListTopicOptions) returns (ListTopicResults) {}
   // create new topic
