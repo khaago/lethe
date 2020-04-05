@@ -27,6 +27,7 @@ func CreateTopic(opts pb.TopicOptions) (*pb.Topic, error) {
 	}
 	topic := &pb.Topic{Name: opts.GetTopicName(), Offset: 0}
 	topics[opts.GetTopicName()] = topic
+	data[opts.GetTopicName()] = make([]*pb.Event, 10)
 	log.Printf("topic %s created", opts.GetTopicName())
 	return topic, nil
 }
@@ -37,12 +38,14 @@ func DeleteTopic(opts pb.TopicOptions) (*pb.DeleteResult, error) {
 		return nil, err
 	}
 	delete(topics, opts.GetTopicName())
+	delete(data, opts.GetTopicName())
 	log.Printf("topic %s deleted", opts.GetTopicName())
 	return &pb.DeleteResult{TopicName: opts.GetTopicName(), Success: true}, nil
 }
 
 // Save stores the event under a new key
 func Save(event pb.Event) (*pb.Ack, error) {
+	// log.Println("ALL DATA", data)
 	if err := validateTopic(event.GetTopicName()); err != nil {
 		return nil, err
 	}
@@ -57,8 +60,8 @@ func Save(event pb.Event) (*pb.Ack, error) {
 	return ack, nil
 }
 
-// GetEvent gets an event from the datastore based on the GetOptions
-func GetEvent(opts *pb.ListenOptions) (*pb.Event, error) {
+// GetEvents gets an event from the datastore based on the GetOptions
+func GetEvents(opts *pb.ListenOptions) ([]*pb.Event, error) {
 	if err := validateTopic(opts.GetTopicName()); err != nil {
 		return nil, err
 	}
@@ -70,11 +73,10 @@ func GetEvent(opts *pb.ListenOptions) (*pb.Event, error) {
 	// if a negative index is supplied treat it as the highest available index
 	if index < 0 {
 		index = (int32)(len(data[opts.GetTopicName()]) - 1)
-	}
-	if err := data[opts.GetTopicName()][index]; err != nil {
+	} else if err := data[opts.GetTopicName()]; err != nil {
 		return nil, fmt.Errorf("Failed to retrieve event for topic %s offset %d due to \n%v", opts.GetTopicName(), opts.GetOffset(), err)
 	}
-	return data[opts.GetTopicName()][index], nil
+	return data[opts.GetTopicName()][index:], nil
 }
 
 func validateTopic(topicName string) error {

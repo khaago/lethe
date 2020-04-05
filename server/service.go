@@ -22,22 +22,24 @@ func (s *brokerServer) DeleteTopic(ctx context.Context, opts *pb.TopicOptions) (
 func (s *brokerServer) Dispatch(ctx context.Context, event *pb.Event) (*pb.Ack, error) {
 	log.Println("Received event to dispatch", *event)
 	ack, err := store.Save(*event)
-	log.Println("Saved event", *event)
+	if err == nil {
+		log.Println("Saved event", *event)
+	}
 	return ack, err
 }
 
-// Listen listens to incoming message based on the topic params
+// Listen listens to incoming message based on the ListenOptions
 func (s *brokerServer) Listen(opts *pb.ListenOptions, stream pb.Broker_ListenServer) error {
-	for {
-		event, err := store.GetEvent(opts)
-		if err != nil {
-			return err
-		}
+	events, err := store.GetEvents(opts)
+	if err != nil {
+		return err
+	}
+	for _, event := range events {
 		if err = stream.Send(event); err != nil {
 			return err
 		}
-		return fmt.Errorf("Failed to provide event %v", err)
 	}
+	return nil
 }
 
 // Dispatch a stream of events
