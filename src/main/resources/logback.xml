@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.khaago.lethe" level="DEBUG" />
+    <logger name="com.khaago.lethe" level="debug" />
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>

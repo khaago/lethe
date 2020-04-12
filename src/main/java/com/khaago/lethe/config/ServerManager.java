@@ -17,7 +17,6 @@ public class ServerManager {
     private static final Logger logger = LoggerFactory.getLogger(ServerManager.class);
 
     public void start(int port) throws IOException {
-        logger.info("Server starting on port {}", port);
         /* The port on which the server should run */
         server = ServerBuilder.forPort(port)
                 .addService(new TopicService())
@@ -25,7 +24,7 @@ public class ServerManager {
                 .addService(new ClientService())
                 .build()
                 .start();
-        logger.info("Server started, listening on {}", port);
+        logger.debug("Server started, listening on {}", port);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             // Use stderr here since the logger may have been reset by its JVM shutdown hook.
             logger.warn("*** shutting down gRPC server since JVM is shutting down");
