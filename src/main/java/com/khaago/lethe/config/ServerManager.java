@@ -27,14 +27,14 @@ public class ServerManager {
         logger.debug("Server started, listening on {}", port);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             // Use stderr here since the logger may have been reset by its JVM shutdown hook.
-            logger.warn("*** shutting down gRPC server since JVM is shutting down");
+            System.err.println("*** shutting down gRPC server since JVM is shutting down");
             try {
                 ServerManager.this.stop();
             } catch (InterruptedException e) {
                 logger.error("InterruptedException ", e);
                 Thread.currentThread().interrupt();
             }
-            logger.warn("*** server shut down");
+            System.err.println("*** server shut down");
         }));
     }
 
