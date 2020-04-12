@@ -7,21 +7,33 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class ServerManager {
 
     private Server server;
     private static final Logger logger = LoggerFactory.getLogger(ServerManager.class);
 
+    @Autowired
+    ClientService clientService;
+
+    @Autowired
+    TopicService topicService;
+
+    @Autowired
+    EventService eventService;
+
     public void start(int port) throws IOException {
         /* The port on which the server should run */
         server = ServerBuilder.forPort(port)
-                .addService(new TopicService())
-                .addService(new EventService())
-                .addService(new ClientService())
+                .addService(topicService)
+                .addService(eventService)
+                .addService(clientService)
                 .build()
                 .start();
         logger.debug("Server started, listening on {}", port);
@@ -31,7 +43,7 @@ public class ServerManager {
             try {
                 ServerManager.this.stop();
             } catch (InterruptedException e) {
-                logger.error("InterruptedException ", e);
+                System.err.printf("InterruptedException %s", e.getMessage());
                 Thread.currentThread().interrupt();
             }
             System.err.println("*** server shut down");
