@@ -16,7 +16,7 @@ service Broker {
   // register a client
   rpc Register(RegistrationRequest) returns (RegistrationResponse) {}
   // susbcribe to a topic - tell the sever you want to receive events for a certain topic
-  rpc Subscribe (stream SubscribeOptions) returns (stream Event) {}
+  rpc Subscribe (SubscribeOptions) returns (Topic) {}
   // listen to a topic for events
   rpc Listen (ListenOptions) returns (stream Event) {}
 

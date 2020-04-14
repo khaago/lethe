@@ -1,6 +1,7 @@
 package com.khaago.lethe;
 
 import com.khaago.lethe.config.ServerManager;
+import org.apache.ignite.springdata20.repository.config.EnableIgniteRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.Banner;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.IOException;
 
 @SpringBootApplication
+@EnableIgniteRepositories
 public class Lethe implements CommandLineRunner {
 
     @Autowired
