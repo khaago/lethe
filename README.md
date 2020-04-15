@@ -1,5 +1,6 @@
 #lethe
 
 ~~~~
-mvn clean install -Dexec.args="50051"
+mvn clean install
+mvn spring-boot:run -Dspring-boot.run.arguments=--spring.main.banner-mode=off,--grpc.port=50053
 ~~~~

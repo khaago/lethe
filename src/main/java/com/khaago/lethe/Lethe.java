@@ -29,8 +29,7 @@ public class Lethe implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws IOException, InterruptedException {
-        int port = (args == null || args.length == 0) ? grpcPort : Integer.parseInt(args[0]);
-        serverManager.start(port);
+        serverManager.start(grpcPort);
         serverManager.blockUntilShutdown();
     }
 }

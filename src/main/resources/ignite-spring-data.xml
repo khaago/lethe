@@ -40,16 +40,11 @@
     <import resource="./ignite-default.xml"/>
 
     <bean parent="ignite.cfg">
-        <property name="igniteInstanceName" value="springDataNode" />
+        <property name="igniteInstanceName" value="springDataNode"/>
 
         <property name="cacheConfiguration">
             <list>
                 <bean class="org.apache.ignite.configuration.CacheConfiguration">
-                    <!--
-                        Apache Ignite uses an IgniteRepository extension which inherits from Spring Data's CrudRepository.
-                        The SQL grid is also enabled to access Spring Data repository. The @RepositoryConfig annotation
-                        maps the TopicRepository to an Ignite's cache named "TopicCache".
-                    -->
                     <property name="name" value="TopicCache"/>
                     <property name="indexedTypes">
                         <list>
@@ -58,7 +53,32 @@
                         </list>
                     </property>
                 </bean>
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="ClientCache"/>
+                    <property name="indexedTypes">
+                        <list>
+                            <value>java.lang.Long</value>
+                            <value>com.khaago.lethe.dto.Client</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="GroupCache"/>
+                    <property name="indexedTypes">
+                        <list>
+                            <value>java.lang.Long</value>
+                            <value>com.khaago.lethe.dto.Group</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
+
+        </property>
+        <property name="atomicConfiguration">
+                <bean class="org.apache.ignite.configuration.AtomicConfiguration">
+                    <property name="backups" value="1"/>
+                    <property name="atomicSequenceReserveSize" value="5000"/>
+                </bean>
         </property>
     </bean>
 </beans>
