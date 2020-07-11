@@ -2,8 +2,6 @@ package com.khaago.lethe.grpc;
 
 import com.khaago.lethe.*;
 import com.khaago.lethe.exception.ExceptionService;
-import com.khaago.lethe.service.RegistrationService;
-import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,24 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClientService extends BrokerGrpc.BrokerImplBase {
 
-    private final RegistrationService registrationService;
     private final ExceptionService exceptionService;
 
     @Autowired
-    public ClientService(RegistrationService registrationService, ExceptionService exceptionService) {
-        this.registrationService = registrationService;
+    public ClientService(ExceptionService exceptionService) {
         this.exceptionService = exceptionService;
-    }
-
-    @Override
-    public void register(RegistrationRequest request, StreamObserver<RegistrationResponse> observer) {
-        RegistrationResponse registrationResponse = RegistrationResponse
-                .newBuilder()
-                .setClientName(request.getClientName())
-                .build();
-        registrationService.registerClient(request);
-        observer.onNext(registrationResponse);
-        observer.onCompleted();
     }
 
     @Override

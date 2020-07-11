@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExceptionService {
 
-   public void generateOnError(StreamObserver observer, Throwable e) {
+    @SuppressWarnings("rawtypes")
+    public void generateOnError(StreamObserver observer, Throwable e) {
         observer.onError(Status.INTERNAL
                 .withDescription("Something went wrong. Please try again.")
                 .augmentDescription("Contact the developer")
@@ -15,10 +16,11 @@ public class ExceptionService {
                 .asRuntimeException());
     }
 
+    @SuppressWarnings("rawtypes")
     public void generateOnError(StreamObserver observer, Throwable e, String... descriptions) {
         Status status = Status.INTERNAL;
-        if(descriptions != null){
-            for(String desc : descriptions) {
+        if (descriptions != null) {
+            for (String desc : descriptions) {
                 status = status.augmentDescription(desc);
             }
         }

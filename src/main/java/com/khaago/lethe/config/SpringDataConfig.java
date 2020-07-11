@@ -46,5 +46,13 @@ public class SpringDataConfig {
         );
     }
 
+    @Bean
+    public IgniteAtomicLong eventIdGen(){
+        return ignite().atomicLong(
+                "eventIdGen",
+                0,
+                true
+        );
+    }
 
 }

@@ -13,19 +13,22 @@ service Broker {
   // send a stream of events and receive a corresponding stream of acks
   rpc DispatchStream (stream DispatchOptions) returns (stream Ack) {}
 
-  // register a client
-  rpc Register(RegistrationRequest) returns (RegistrationResponse) {}
   // susbcribe to a topic - tell the sever you want to receive events for a certain topic
-  rpc Subscribe (stream SubscribeOptions) returns (stream Event) {}
+  rpc Subscribe (SubscribeOptions) returns (Topic) {}
   // listen to a topic for events
   rpc Listen (ListenOptions) returns (stream Event) {}
 
+  // admin - list client
+  rpc ListClient(ListClientOptions) returns (stream Client) {}
+
   // list topics
-  rpc ListTopic(ListTopicOptions) returns (ListTopicResults) {}
+  rpc ListTopic(ListTopicOptions) returns (stream Topic) {}
   // create new topic
-  rpc CreateTopic(CreateTopicOptions) returns (CreateTopicResults) {}
+  rpc CreateTopic(CreateTopicOptions) returns (Topic) {}
   // delete existing topic
-  rpc DeleteTopic(DeleteTopicOptions) returns (DeleteTopicResult){}
+  rpc DeleteTopic(DeleteTopicOptions) returns (DeleteTopicResult) {}
+  // update Topic info
+  rpc UpdateTopic(UpdateTopicOptions) returns (Topic) {}
 }
 
 message SubscribeOptions {
@@ -34,45 +37,42 @@ message SubscribeOptions {
 }
 
 message DispatchOptions {
-  repeated string topics  = 1;
+  repeated string topics = 1;
   Event event = 2;
 }
 
 // regex
 message ListTopicOptions {
   string pattern = 1;
-  repeated Tag tags = 2;
+  map<string, string> properties = 2;
 }
 
-message ListTopicResults {
-  repeated Topic topics = 1;
+message ListTopicResult {
+  repeated Topic topic = 1;
 }
 
-message RegistrationRequest {
+message UpdateTopicOptions {
+  string description = 1;
+  int64 retention = 2;
+  map<string, string> properties = 3;
+}
+
+message Client {
   string client_name = 1;
-  repeated Tag tags = 2;
-  bool deregister = 3;
+  map<string, string> properties = 3;
 }
 
-message RegistrationResponse {
-  string client_name = 1;
-}
-
-// offest - negative offset means latest
+// message_id -> start listening from this message_id
 message ListenOptions {
   string topic_name = 1;
-  int32 offset = 2;
+  int32 message_id = 2;
 }
 
 message CreateTopicOptions {
   string name = 1;
   string description = 2;
   int64 retention = 3;
-  repeated Tag tags = 6;
-}
-
-message CreateTopicResults {
-  Topic topic = 1;
+  map<string, string> properties = 4;
 }
 
 // delete the topic and all messages in it
@@ -91,27 +91,32 @@ message Topic {
   int64 retention = 3;
   string description = 4;
   TopicOptions options = 5;
-  repeated Tag tags = 6;
-}
-
-message Tag {
-  string key = 1;
-  string value = 2;
+  map<string, string> properties = 6;
 }
 
 message TopicOptions {
   // not implemented
 }
 
+// same msg_id can have multiple parts
 message Event {
-  string msg_id = 1;
+  string event_id = 1;
+  string part = 2;
+  bool last = 3;  // which is the last part
   bytes msg = 4;
   int64 time = 5;
 }
 
 message Ack {
-  string msg_id = 2;
+  string msg_id = 1;
+  string part = 2;
   int64 time = 4;
   string success = 5;
-  string error_msg = 6;   // message was received but something went wrong in the server
+}
+
+// admin
+message  ListClientOptions {
+  string name = 1;
+  string id = 2;
+  map<string, string> properties = 3;
 }
