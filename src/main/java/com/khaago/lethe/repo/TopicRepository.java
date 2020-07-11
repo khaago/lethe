@@ -1,6 +1,6 @@
 package com.khaago.lethe.repo;
 
-import com.khaago.lethe.dto.Topic;
+import com.khaago.lethe.dto.TopicDto;
 import org.apache.ignite.springdata20.repository.IgniteRepository;
 import org.apache.ignite.springdata20.repository.config.RepositoryConfig;
 
@@ -8,13 +8,13 @@ import javax.cache.Cache;
 import java.util.List;
 
 @RepositoryConfig(cacheName = "TopicCache")
-public interface TopicRepository extends IgniteRepository<Topic, Long> {
-    public List<Topic> findByName(String name);
+public interface TopicRepository extends IgniteRepository<TopicDto, Long> {
+    public List<TopicDto> findByName(String name);
 
     /**
      * Returns top Top with the specified name.
      */
-    public Cache.Entry<Long, Topic> findTopByNameLike(String name);
+    public Cache.Entry<Long, TopicDto> findTopByNameLike(String name);
 
 //    /**
 //     * Getting ids of all the Person satisfying the custom query from {@link Query} annotation.

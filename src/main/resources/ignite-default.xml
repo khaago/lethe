@@ -73,4 +73,18 @@
             </bean>
         </property>
     </bean>
+
+    <bean class="org.apache.ignite.configuration.CacheConfiguration">
+        <property name="expiryPolicyFactory">
+            <bean class="javax.cache.expiry.ModifiedExpiryPolicy" factory-method="factoryOf">
+                <constructor-arg>
+                    <bean class="javax.cache.expiry.Duration">
+                        <constructor-arg value="MINUTES"/>
+                        <constructor-arg value="5"/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
 </beans>

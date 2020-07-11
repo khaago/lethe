@@ -17,8 +17,8 @@ public class ExceptionService {
     }
 
     @SuppressWarnings("rawtypes")
-    public void generateOnError(StreamObserver observer, Throwable e, String... descriptions) {
-        Status status = Status.INTERNAL;
+    public void generateOnError(StreamObserver observer, Throwable e, Status status, String... descriptions) {
+        if(status == null) status = Status.INTERNAL;
         if (descriptions != null) {
             for (String desc : descriptions) {
                 status = status.augmentDescription(desc);
