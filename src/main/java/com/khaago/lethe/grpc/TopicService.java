@@ -1,8 +1,6 @@
 package com.khaago.lethe.grpc;
 
-import com.khaago.lethe.BrokerGrpc;
-import com.khaago.lethe.CreateTopicOptions;
-import com.khaago.lethe.Topic;
+import com.khaago.lethe.*;
 import com.khaago.lethe.dto.TopicDto;
 import com.khaago.lethe.exception.ExceptionService;
 import com.khaago.lethe.exception.InvalidInputException;
@@ -56,5 +54,10 @@ public class TopicService extends BrokerGrpc.BrokerImplBase {
                 .setId(topicIdGen.getAndIncrement())
                 .setCreated(LocalDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
                 .build();
+    }
+
+    @Override
+    public void listen(ListenOptions options, StreamObserver<Event> observer) {
+        throw new UnsupportedOperationException("Not here bro");
     }
 }

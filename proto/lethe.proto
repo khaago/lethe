@@ -10,6 +10,8 @@ package lethe;
 service Broker {
   // register a client. lethe maintains a client inventory
   rpc Register(Client) returns (Client) {}
+  rpc Update(Client) returns (Client) {}
+  rpc GetClient(Client) returns (Client) {}
 
   // create new topic
   rpc CreateTopic(CreateTopicOptions) returns (Topic) {}

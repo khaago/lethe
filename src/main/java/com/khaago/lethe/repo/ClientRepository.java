@@ -4,9 +4,9 @@ import com.khaago.lethe.dto.ClientDto;
 import org.apache.ignite.springdata20.repository.IgniteRepository;
 import org.apache.ignite.springdata20.repository.config.RepositoryConfig;
 
-import java.util.List;
+import javax.cache.Cache;
 
 @RepositoryConfig(cacheName = "ClientCache")
 public interface ClientRepository extends IgniteRepository<ClientDto, Long> {
-    List<ClientDto> findByName(String name);
+    Cache.Entry<Long, ClientDto> findTopByNameLike(String name);
 }

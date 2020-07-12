@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:java" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d2f656be-ad1d-4599-8dc5-beda6a8ec2af" name="Default Changelist" comment="updates to proto">
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proto/lethe.proto" beforeDir="false" afterPath="$PROJECT_DIR$/proto/lethe.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/khaago/lethe/grpc/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/khaago/lethe/grpc/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/khaago/lethe/grpc/TopicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/khaago/lethe/grpc/TopicService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/khaago/lethe/repo/ClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/khaago/lethe/repo/ClientRepository.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/khaago/lethe.git" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1aPUt7MEHQq4qdu0GzK98HWBHOr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SONARLINT_PRECOMMIT_ANALYSIS" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/test/proto" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/proto" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.khaago.lethe.exception" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.khaago.lethe.dto" />
+      <recent name="com.khaago.lethe.repo" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/proto" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn jar:jar" />
+      <command value="mvn deploy" />
+      <command value="mvn verify" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Remote.DEBUG">
+    <configuration name="Lethe" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.khaago.lethe.Lethe" />
+      <module name="lethe" />
+      <option name="PROGRAM_PARAMETERS" value="50051" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.khaago.lethe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="lethe [spring-boot:run...]" type="MavenRunConfiguration" factoryName="Maven" singleton="false" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="spring-boot:run" />
+                <option value="-Dspring-boot.run.arguments=--spring.main.banner-mode=off,--grpc.port=${PORT}" />
+                <option value="-Dspring-boot.run.jvmArguments=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="DEBUG" type="Remote">
+      <module name="lethe" />
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <option name="AUTO_RESTART" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="5005" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Lethe" />
+      <item itemvalue="Maven.lethe [spring-boot:run...]" />
+      <item itemvalue="Remote.DEBUG" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Lethe" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d2f656be-ad1d-4599-8dc5-beda6a8ec2af" name="Default Changelist" comment="" />
+      <created>1586636933304</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1586636933304</updated>
+    </task>
+    <task id="LOCAL-00001" summary="build and deploy setup">
+      <created>1586645434738</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1586645434738</updated>
+    </task>
+    <task id="LOCAL-00002" summary="spring bootify">
+      <created>1586660157305</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1586660157305</updated>
+    </task>
+    <task id="LOCAL-00003" summary="shutdown hook">
+      <created>1586660510104</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1586660510104</updated>
+    </task>
+    <task id="LOCAL-00004" summary="hook up client services using spring">
+      <created>1586661843952</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1586661843952</updated>
+    </task>
+    <task id="LOCAL-00005" summary="ignite and spring boot">
+      <created>1586827794614</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1586827794614</updated>
+    </task>
+    <task id="LOCAL-00006" summary="atomic id generators">
+      <created>1586914445473</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1586914445473</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update contract&#10;- new idea">
+      <created>1594479586506</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1594479586506</updated>
+    </task>
+    <task id="LOCAL-00008" summary="updates to proto">
+      <created>1594495573526</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1594495573526</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="java" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Paths">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="dir:/Users/khaago/workspace/java/lethe/src/main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="build and deploy setup" />
+    <MESSAGE value="spring bootify" />
+    <MESSAGE value="shutdown hook" />
+    <MESSAGE value="hook up client services using spring" />
+    <MESSAGE value="ignite and spring boot" />
+    <MESSAGE value="atomic id generators" />
+    <MESSAGE value="update contract&#10;- new idea" />
+    <MESSAGE value="updates to proto" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates to proto" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="360" y="222" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1594520943727">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="360" y="222" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1594520943727" />
+    <state x="628" y="369" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1594476790362">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="628" y="369" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1792.1120@0.0.1792.1120" timestamp="1594476790362" />
+    <state x="709" y="251" key="#com.intellij.ide.util.MemberChooser" timestamp="1594514330154">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="709" y="251" key="#com.intellij.ide.util.MemberChooser/0.0.1792.1120@0.0.1792.1120" timestamp="1594514330154" />
+    <state x="634" y="343" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1594493745947">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="634" y="343" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1594493745947" />
+    <state x="237" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586827859119">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="237" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1586827859119" />
+    <state x="634" y="314" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1594481623072">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="634" y="314" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1594481623072" />
+    <state x="473" y="140" key="CommitChangelistDialog2" timestamp="1586661952159">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="473" y="140" key="CommitChangelistDialog2/0.0.1792.1120@0.0.1792.1120" timestamp="1586661952159" />
+    <state x="100" y="100" width="1592" height="920" key="DiffContextDialog" timestamp="1594510661324">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="100" y="100" width="1592" height="920" key="DiffContextDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1594510661324" />
+    <state width="1750" height="536" key="GridCell.Tab.0.bottom" timestamp="1594520974579">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="536" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1594520974579" />
+    <state width="1878" height="651" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1587157926836" />
+    <state width="1750" height="651" key="GridCell.Tab.0.bottom/0.23.1792.1017@0.23.1792.1017" timestamp="1586925795947" />
+    <state width="1878" height="651" key="GridCell.Tab.0.bottom/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1587151400635" />
+    <state width="1750" height="536" key="GridCell.Tab.0.center" timestamp="1594520974578">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="536" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1594520974578" />
+    <state width="1878" height="651" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1587157926835" />
+    <state width="1750" height="651" key="GridCell.Tab.0.center/0.23.1792.1017@0.23.1792.1017" timestamp="1586925795944" />
+    <state width="1878" height="651" key="GridCell.Tab.0.center/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1587151400634" />
+    <state width="1750" height="536" key="GridCell.Tab.0.left" timestamp="1594520974577">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="536" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1594520974577" />
+    <state width="1878" height="651" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1587157926834" />
+    <state width="1750" height="651" key="GridCell.Tab.0.left/0.23.1792.1017@0.23.1792.1017" timestamp="1586925795942" />
+    <state width="1878" height="651" key="GridCell.Tab.0.left/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1587151400633" />
+    <state width="1750" height="536" key="GridCell.Tab.0.right" timestamp="1594520974578">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="536" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1594520974578" />
+    <state width="1878" height="651" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1587157926835" />
+    <state width="1750" height="651" key="GridCell.Tab.0.right/0.23.1792.1017@0.23.1792.1017" timestamp="1586925795945" />
+    <state width="1878" height="651" key="GridCell.Tab.0.right/1792.0.1920.1080/0.0.1792.1120@1792.0.1920.1080" timestamp="1587151400635" />
+    <state width="1750" height="536" key="GridCell.Tab.1.bottom" timestamp="1594520974582">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="536" key="GridCell.Tab.1.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1594520974582" />
+    <state width="1750" height="536" key="GridCell.Tab.1.center" timestamp="1594520974581">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="536" key="GridCell.Tab.1.center/0.0.1792.1120@0.0.1792.1120" timestamp="1594520974581" />
+    <state width="1750" height="536" key="GridCell.Tab.1.left" timestamp="1594520974580">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="536" key="GridCell.Tab.1.left/0.0.1792.1120@0.0.1792.1120" timestamp="1594520974580" />
+    <state width="1750" height="536" key="GridCell.Tab.1.right" timestamp="1594520974581">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="536" key="GridCell.Tab.1.right/0.0.1792.1120@0.0.1792.1120" timestamp="1594520974581" />
+    <state x="434" y="222" key="Maven.ArtifactSearchDialog" timestamp="1586729740230">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="434" y="222" key="Maven.ArtifactSearchDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1586729740230" />
+    <state x="716" y="269" key="RollbackChangesDialog" timestamp="1586827676586">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="716" y="269" key="RollbackChangesDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1586827676586" />
+    <state x="397" y="199" key="SettingsEditor" timestamp="1594510918804">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="397" y="199" key="SettingsEditor/0.0.1792.1120@0.0.1792.1120" timestamp="1594510918804" />
+    <state x="397" y="199" key="SettingsEditor/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1587152617076" />
+    <state x="496" y="300" key="Vcs.Push.Dialog.v2" timestamp="1594495575429">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="496" y="300" key="Vcs.Push.Dialog.v2/0.0.1792.1120@0.0.1792.1120" timestamp="1594495575429" />
+    <state x="100" y="100" width="1592" height="920" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1586902947348">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="100" y="100" width="1592" height="920" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1586902947348" />
+    <state x="684" y="481" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1594474303471">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="684" y="481" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1792.1120@0.0.1792.1120" timestamp="1594474303471" />
+    <state x="597" y="317" width="938" height="486" key="find.popup" timestamp="1594510788491">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="597" y="317" width="938" height="486" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1594510788491" />
+    <state x="684" y="372" key="git4idea.history.wholeTree.VcsStructureChooser" timestamp="1594475779165">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="684" y="372" key="git4idea.history.wholeTree.VcsStructureChooser/0.0.1792.1120@0.0.1792.1120" timestamp="1594475779165" />
+    <state x="673" y="333" key="refactoring.ChangeSignatureDialog" timestamp="1586731026514">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="673" y="333" key="refactoring.ChangeSignatureDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1586731026514" />
+    <state x="561" y="265" width="670" height="675" key="run.anything.popup" timestamp="1586644610168">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="561" y="265" width="670" height="675" key="run.anything.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1586644610168" />
+    <state x="561" y="251" width="670" height="676" key="search.everywhere.popup" timestamp="1594520811973">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="561" y="251" width="670" height="676" key="search.everywhere.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1594520811973" />
+    <state x="561" y="251" width="670" height="676" key="search.everywhere.popup/1792.0.1920.1080/0.0.1792.1120@0.0.1792.1120" timestamp="1587148728300" />
+  </component>
+</project>
