@@ -1,7 +1,7 @@
 PORT ?= 50051
 
 build:
-	cp src/main/proto/lethe.proto src/test/proto/lethe.proto
+	# cp src/main/proto/lethe.proto src/test/proto/lethe.proto
 	/usr/local/bin/mvn clean install
 
 run:

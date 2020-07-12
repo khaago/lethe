@@ -124,6 +124,9 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <configuration>
+                            <protoSourceRoot>proto</protoSourceRoot>
+                        </configuration>
                         <goals>
                             <goal>compile</goal>
                             <goal>compile-custom</goal>
