@@ -38,15 +38,6 @@ public class SpringDataConfig {
     }
 
     @Bean
-    public IgniteAtomicLong groupIdGen(){
-        return ignite().atomicLong(
-                "groupIdGen",
-                0,
-                true
-        );
-    }
-
-    @Bean
     public IgniteAtomicLong eventIdGen(){
         return ignite().atomicLong(
                 "eventIdGen",

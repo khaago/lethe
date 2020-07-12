@@ -8,10 +8,13 @@ package lethe;
 
 // Base broker template.
 service Broker {
-  // list topics
-  rpc ListTopic(ListTopicOptions) returns (stream Topic) {}
+  // register a client. lethe maintains a client inventory
+  rpc Register(Client) returns (Client) {}
+
   // create new topic
   rpc CreateTopic(CreateTopicOptions) returns (Topic) {}
+  // list topics
+  rpc ListTopic(ListTopicOptions) returns (stream Topic) {}
   // delete existing topic
   rpc DeleteTopic(DeleteTopicOptions) returns (DeleteTopicResult) {}
   // update Topic info

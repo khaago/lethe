@@ -17,7 +17,6 @@ public class ClientDtoConverter extends AbstractTwoWayConverter<Client, ClientDt
                 .setName(target.getName())
                 .setAddress(target.getAddress())
                 .putAllProperties(target.getProperties())
-                .setId(target.getId())
                 .build();
     }
 }

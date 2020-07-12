@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ClientDto implements Serializable {
-    @QuerySqlField(index = true)
-    private Long id;
-
     @QuerySqlField
     private String name;
     private String address;
@@ -22,30 +19,14 @@ public class ClientDto implements Serializable {
         // No-op.
     }
 
-    public ClientDto(Long id, String address) {
-        this.id = id;
+    public ClientDto(String address) {
         this.address = address;
-    }
-
-    public ClientDto(Long id, String name, String address, Map<String, String> properties) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.properties = properties;
     }
 
     public ClientDto(String name, String address, Map<String, String> properties) {
         this.name = name;
         this.address = address;
         this.properties = properties;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -72,10 +53,25 @@ public class ClientDto implements Serializable {
         this.properties = properties;
     }
 
+    public List<TopicDto> getContributions() {
+        return contributions;
+    }
+
+    public void setContributions(List<TopicDto> contributions) {
+        this.contributions = contributions;
+    }
+
+    public List<TopicDto> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<TopicDto> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
     @Override
     public String toString() {
         return "ClientDto{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", properties=" + properties +

@@ -63,20 +63,11 @@
                     </property>
                 </bean>
                 <bean class="org.apache.ignite.configuration.CacheConfiguration">
-                    <property name="name" value="GroupCache"/>
-                    <property name="indexedTypes">
-                        <list>
-                            <value>java.lang.Long</value>
-                            <value>com.khaago.lethe.dto.Group</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean class="org.apache.ignite.configuration.CacheConfiguration">
                     <property name="name" value="EventCache"/>
                     <property name="indexedTypes">
                         <list>
                             <value>java.lang.Long</value>
-                            <value>com.khaago.lethe.dto.Group</value>
+                            <value>com.khaago.lethe.dto.EventDto</value>
                         </list>
                     </property>
                 </bean>
