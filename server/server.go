@@ -37,6 +37,7 @@ func Run() {
 	}
 	var opts []grpc.ServerOption
 	if *tls {
+		// TODO auth
 		// if *certFile == "" {
 		// 	*certFile = testdata.Path("server1.pem")
 		// }

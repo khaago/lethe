@@ -24,277 +24,230 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type SubscribeOptions struct {
-	TopicName            string        `protobuf:"bytes,1,opt,name=topic_name,json=topicName,proto3" json:"topic_name,omitempty"`
-	TopicOptions         *TopicOptions `protobuf:"bytes,2,opt,name=topic_options,json=topicOptions,proto3" json:"topic_options,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
+type StatusCode int32
+
+const (
+	StatusCode_SUCCESS         StatusCode = 0
+	StatusCode_REQUEST_FAILURE StatusCode = 1
+	StatusCode_SERVER_FAILURE  StatusCode = 2
+)
+
+var StatusCode_name = map[int32]string{
+	0: "SUCCESS",
+	1: "REQUEST_FAILURE",
+	2: "SERVER_FAILURE",
 }
 
-func (m *SubscribeOptions) Reset()         { *m = SubscribeOptions{} }
-func (m *SubscribeOptions) String() string { return proto.CompactTextString(m) }
-func (*SubscribeOptions) ProtoMessage()    {}
-func (*SubscribeOptions) Descriptor() ([]byte, []int) {
+var StatusCode_value = map[string]int32{
+	"SUCCESS":         0,
+	"REQUEST_FAILURE": 1,
+	"SERVER_FAILURE":  2,
+}
+
+func (x StatusCode) String() string {
+	return proto.EnumName(StatusCode_name, int32(x))
+}
+
+func (StatusCode) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_f209535e190f2bed, []int{0}
 }
 
-func (m *SubscribeOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SubscribeOptions.Unmarshal(m, b)
-}
-func (m *SubscribeOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SubscribeOptions.Marshal(b, m, deterministic)
-}
-func (m *SubscribeOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SubscribeOptions.Merge(m, src)
-}
-func (m *SubscribeOptions) XXX_Size() int {
-	return xxx_messageInfo_SubscribeOptions.Size(m)
-}
-func (m *SubscribeOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_SubscribeOptions.DiscardUnknown(m)
+// Generic acknowledgment of any request
+type Ack struct {
+	StatusCode           StatusCode `protobuf:"varint,1,opt,name=statusCode,proto3,enum=lethe.StatusCode" json:"statusCode,omitempty"`
+	Message              string     `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
+	XXX_unrecognized     []byte     `json:"-"`
+	XXX_sizecache        int32      `json:"-"`
 }
 
-var xxx_messageInfo_SubscribeOptions proto.InternalMessageInfo
+func (m *Ack) Reset()         { *m = Ack{} }
+func (m *Ack) String() string { return proto.CompactTextString(m) }
+func (*Ack) ProtoMessage()    {}
+func (*Ack) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{0}
+}
 
-func (m *SubscribeOptions) GetTopicName() string {
+func (m *Ack) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Ack.Unmarshal(m, b)
+}
+func (m *Ack) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Ack.Marshal(b, m, deterministic)
+}
+func (m *Ack) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Ack.Merge(m, src)
+}
+func (m *Ack) XXX_Size() int {
+	return xxx_messageInfo_Ack.Size(m)
+}
+func (m *Ack) XXX_DiscardUnknown() {
+	xxx_messageInfo_Ack.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Ack proto.InternalMessageInfo
+
+func (m *Ack) GetStatusCode() StatusCode {
 	if m != nil {
-		return m.TopicName
+		return m.StatusCode
+	}
+	return StatusCode_SUCCESS
+}
+
+func (m *Ack) GetMessage() string {
+	if m != nil {
+		return m.Message
 	}
 	return ""
 }
 
-func (m *SubscribeOptions) GetTopicOptions() *TopicOptions {
+// Wraps generic acknowledgment with an additional serial number of the latest message received
+type DispatchAck struct {
+	Ack                  *Ack     `protobuf:"bytes,1,opt,name=ack,proto3" json:"ack,omitempty"`
+	SerialNumber         int64    `protobuf:"varint,2,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DispatchAck) Reset()         { *m = DispatchAck{} }
+func (m *DispatchAck) String() string { return proto.CompactTextString(m) }
+func (*DispatchAck) ProtoMessage()    {}
+func (*DispatchAck) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{1}
+}
+
+func (m *DispatchAck) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DispatchAck.Unmarshal(m, b)
+}
+func (m *DispatchAck) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DispatchAck.Marshal(b, m, deterministic)
+}
+func (m *DispatchAck) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DispatchAck.Merge(m, src)
+}
+func (m *DispatchAck) XXX_Size() int {
+	return xxx_messageInfo_DispatchAck.Size(m)
+}
+func (m *DispatchAck) XXX_DiscardUnknown() {
+	xxx_messageInfo_DispatchAck.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DispatchAck proto.InternalMessageInfo
+
+func (m *DispatchAck) GetAck() *Ack {
 	if m != nil {
-		return m.TopicOptions
+		return m.Ack
 	}
 	return nil
 }
 
-type DispatchOptions struct {
-	Topics               []string `protobuf:"bytes,1,rep,name=topics,proto3" json:"topics,omitempty"`
+func (m *DispatchAck) GetSerialNumber() int64 {
+	if m != nil {
+		return m.SerialNumber
+	}
+	return 0
+}
+
+// Wrap an event to send to a given topic
+type EventPacket struct {
+	Topic                string   `protobuf:"bytes,1,opt,name=topic,proto3" json:"topic,omitempty"`
 	Event                *Event   `protobuf:"bytes,2,opt,name=event,proto3" json:"event,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *DispatchOptions) Reset()         { *m = DispatchOptions{} }
-func (m *DispatchOptions) String() string { return proto.CompactTextString(m) }
-func (*DispatchOptions) ProtoMessage()    {}
-func (*DispatchOptions) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{1}
+func (m *EventPacket) Reset()         { *m = EventPacket{} }
+func (m *EventPacket) String() string { return proto.CompactTextString(m) }
+func (*EventPacket) ProtoMessage()    {}
+func (*EventPacket) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{2}
 }
 
-func (m *DispatchOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DispatchOptions.Unmarshal(m, b)
+func (m *EventPacket) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_EventPacket.Unmarshal(m, b)
 }
-func (m *DispatchOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DispatchOptions.Marshal(b, m, deterministic)
+func (m *EventPacket) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_EventPacket.Marshal(b, m, deterministic)
 }
-func (m *DispatchOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DispatchOptions.Merge(m, src)
+func (m *EventPacket) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventPacket.Merge(m, src)
 }
-func (m *DispatchOptions) XXX_Size() int {
-	return xxx_messageInfo_DispatchOptions.Size(m)
+func (m *EventPacket) XXX_Size() int {
+	return xxx_messageInfo_EventPacket.Size(m)
 }
-func (m *DispatchOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_DispatchOptions.DiscardUnknown(m)
+func (m *EventPacket) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventPacket.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DispatchOptions proto.InternalMessageInfo
+var xxx_messageInfo_EventPacket proto.InternalMessageInfo
 
-func (m *DispatchOptions) GetTopics() []string {
+func (m *EventPacket) GetTopic() string {
 	if m != nil {
-		return m.Topics
+		return m.Topic
 	}
-	return nil
+	return ""
 }
 
-func (m *DispatchOptions) GetEvent() *Event {
+func (m *EventPacket) GetEvent() *Event {
 	if m != nil {
 		return m.Event
 	}
 	return nil
 }
 
-// regex
-type ListTopicOptions struct {
-	Patterns             string   `protobuf:"bytes,1,opt,name=patterns,proto3" json:"patterns,omitempty"`
-	Tags                 []*Tag   `protobuf:"bytes,2,rep,name=tags,proto3" json:"tags,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+// Clients are responsible to serialize the payload of the event into bytes.
+// Additional string metadata may be provided.
+type Event struct {
+	Data                 []byte            `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Metadata             map[string]string `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *ListTopicOptions) Reset()         { *m = ListTopicOptions{} }
-func (m *ListTopicOptions) String() string { return proto.CompactTextString(m) }
-func (*ListTopicOptions) ProtoMessage()    {}
-func (*ListTopicOptions) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{2}
-}
-
-func (m *ListTopicOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListTopicOptions.Unmarshal(m, b)
-}
-func (m *ListTopicOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListTopicOptions.Marshal(b, m, deterministic)
-}
-func (m *ListTopicOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListTopicOptions.Merge(m, src)
-}
-func (m *ListTopicOptions) XXX_Size() int {
-	return xxx_messageInfo_ListTopicOptions.Size(m)
-}
-func (m *ListTopicOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListTopicOptions.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ListTopicOptions proto.InternalMessageInfo
-
-func (m *ListTopicOptions) GetPatterns() string {
-	if m != nil {
-		return m.Patterns
-	}
-	return ""
-}
-
-func (m *ListTopicOptions) GetTags() []*Tag {
-	if m != nil {
-		return m.Tags
-	}
-	return nil
-}
-
-type ListTopicResults struct {
-	Topics               []*Topic `protobuf:"bytes,1,rep,name=topics,proto3" json:"topics,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ListTopicResults) Reset()         { *m = ListTopicResults{} }
-func (m *ListTopicResults) String() string { return proto.CompactTextString(m) }
-func (*ListTopicResults) ProtoMessage()    {}
-func (*ListTopicResults) Descriptor() ([]byte, []int) {
+func (m *Event) Reset()         { *m = Event{} }
+func (m *Event) String() string { return proto.CompactTextString(m) }
+func (*Event) ProtoMessage()    {}
+func (*Event) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f209535e190f2bed, []int{3}
 }
 
-func (m *ListTopicResults) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListTopicResults.Unmarshal(m, b)
+func (m *Event) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Event.Unmarshal(m, b)
 }
-func (m *ListTopicResults) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListTopicResults.Marshal(b, m, deterministic)
+func (m *Event) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Event.Marshal(b, m, deterministic)
 }
-func (m *ListTopicResults) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListTopicResults.Merge(m, src)
+func (m *Event) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Event.Merge(m, src)
 }
-func (m *ListTopicResults) XXX_Size() int {
-	return xxx_messageInfo_ListTopicResults.Size(m)
+func (m *Event) XXX_Size() int {
+	return xxx_messageInfo_Event.Size(m)
 }
-func (m *ListTopicResults) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListTopicResults.DiscardUnknown(m)
+func (m *Event) XXX_DiscardUnknown() {
+	xxx_messageInfo_Event.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListTopicResults proto.InternalMessageInfo
+var xxx_messageInfo_Event proto.InternalMessageInfo
 
-func (m *ListTopicResults) GetTopics() []*Topic {
+func (m *Event) GetData() []byte {
 	if m != nil {
-		return m.Topics
+		return m.Data
 	}
 	return nil
 }
 
-type RegistrationRequest struct {
-	ClientName           string   `protobuf:"bytes,1,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
-	Tags                 []*Tag   `protobuf:"bytes,2,rep,name=tags,proto3" json:"tags,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *RegistrationRequest) Reset()         { *m = RegistrationRequest{} }
-func (m *RegistrationRequest) String() string { return proto.CompactTextString(m) }
-func (*RegistrationRequest) ProtoMessage()    {}
-func (*RegistrationRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{4}
-}
-
-func (m *RegistrationRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RegistrationRequest.Unmarshal(m, b)
-}
-func (m *RegistrationRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RegistrationRequest.Marshal(b, m, deterministic)
-}
-func (m *RegistrationRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegistrationRequest.Merge(m, src)
-}
-func (m *RegistrationRequest) XXX_Size() int {
-	return xxx_messageInfo_RegistrationRequest.Size(m)
-}
-func (m *RegistrationRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegistrationRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_RegistrationRequest proto.InternalMessageInfo
-
-func (m *RegistrationRequest) GetClientName() string {
+func (m *Event) GetMetadata() map[string]string {
 	if m != nil {
-		return m.ClientName
-	}
-	return ""
-}
-
-func (m *RegistrationRequest) GetTags() []*Tag {
-	if m != nil {
-		return m.Tags
+		return m.Metadata
 	}
 	return nil
 }
 
-type RegistrationResponse struct {
-	ClientName           string   `protobuf:"bytes,1,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *RegistrationResponse) Reset()         { *m = RegistrationResponse{} }
-func (m *RegistrationResponse) String() string { return proto.CompactTextString(m) }
-func (*RegistrationResponse) ProtoMessage()    {}
-func (*RegistrationResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{5}
-}
-
-func (m *RegistrationResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RegistrationResponse.Unmarshal(m, b)
-}
-func (m *RegistrationResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RegistrationResponse.Marshal(b, m, deterministic)
-}
-func (m *RegistrationResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegistrationResponse.Merge(m, src)
-}
-func (m *RegistrationResponse) XXX_Size() int {
-	return xxx_messageInfo_RegistrationResponse.Size(m)
-}
-func (m *RegistrationResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegistrationResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_RegistrationResponse proto.InternalMessageInfo
-
-func (m *RegistrationResponse) GetClientName() string {
-	if m != nil {
-		return m.ClientName
-	}
-	return ""
-}
-
-// offest - negative offset means latest
 type ListenOptions struct {
 	TopicName            string   `protobuf:"bytes,1,opt,name=topic_name,json=topicName,proto3" json:"topic_name,omitempty"`
-	Offset               int32    `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
+	SerialNumber         int64    `protobuf:"varint,2,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -304,7 +257,7 @@ func (m *ListenOptions) Reset()         { *m = ListenOptions{} }
 func (m *ListenOptions) String() string { return proto.CompactTextString(m) }
 func (*ListenOptions) ProtoMessage()    {}
 func (*ListenOptions) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{6}
+	return fileDescriptor_f209535e190f2bed, []int{4}
 }
 
 func (m *ListenOptions) XXX_Unmarshal(b []byte) error {
@@ -332,494 +285,101 @@ func (m *ListenOptions) GetTopicName() string {
 	return ""
 }
 
-func (m *ListenOptions) GetOffset() int32 {
+func (m *ListenOptions) GetSerialNumber() int64 {
 	if m != nil {
-		return m.Offset
+		return m.SerialNumber
 	}
 	return 0
 }
 
-type CreateTopicOptions struct {
-	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description          string   `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	Retention            int64    `protobuf:"varint,3,opt,name=retention,proto3" json:"retention,omitempty"`
-	Tags                 []*Tag   `protobuf:"bytes,6,rep,name=tags,proto3" json:"tags,omitempty"`
+type TopicInfo struct {
+	TopicName            string   `protobuf:"bytes,1,opt,name=topic_name,json=topicName,proto3" json:"topic_name,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CreateTopicOptions) Reset()         { *m = CreateTopicOptions{} }
-func (m *CreateTopicOptions) String() string { return proto.CompactTextString(m) }
-func (*CreateTopicOptions) ProtoMessage()    {}
-func (*CreateTopicOptions) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{7}
+func (m *TopicInfo) Reset()         { *m = TopicInfo{} }
+func (m *TopicInfo) String() string { return proto.CompactTextString(m) }
+func (*TopicInfo) ProtoMessage()    {}
+func (*TopicInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{5}
 }
 
-func (m *CreateTopicOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateTopicOptions.Unmarshal(m, b)
+func (m *TopicInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TopicInfo.Unmarshal(m, b)
 }
-func (m *CreateTopicOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateTopicOptions.Marshal(b, m, deterministic)
+func (m *TopicInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TopicInfo.Marshal(b, m, deterministic)
 }
-func (m *CreateTopicOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateTopicOptions.Merge(m, src)
+func (m *TopicInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TopicInfo.Merge(m, src)
 }
-func (m *CreateTopicOptions) XXX_Size() int {
-	return xxx_messageInfo_CreateTopicOptions.Size(m)
+func (m *TopicInfo) XXX_Size() int {
+	return xxx_messageInfo_TopicInfo.Size(m)
 }
-func (m *CreateTopicOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateTopicOptions.DiscardUnknown(m)
+func (m *TopicInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_TopicInfo.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreateTopicOptions proto.InternalMessageInfo
+var xxx_messageInfo_TopicInfo proto.InternalMessageInfo
 
-func (m *CreateTopicOptions) GetName() string {
+func (m *TopicInfo) GetTopicName() string {
 	if m != nil {
-		return m.Name
+		return m.TopicName
 	}
 	return ""
 }
 
-func (m *CreateTopicOptions) GetDescription() string {
-	if m != nil {
-		return m.Description
-	}
-	return ""
+type TopicResults struct {
+	Topics               []string `protobuf:"bytes,1,rep,name=topics,proto3" json:"topics,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CreateTopicOptions) GetRetention() int64 {
-	if m != nil {
-		return m.Retention
-	}
-	return 0
+func (m *TopicResults) Reset()         { *m = TopicResults{} }
+func (m *TopicResults) String() string { return proto.CompactTextString(m) }
+func (*TopicResults) ProtoMessage()    {}
+func (*TopicResults) Descriptor() ([]byte, []int) {
+	return fileDescriptor_f209535e190f2bed, []int{6}
 }
 
-func (m *CreateTopicOptions) GetTags() []*Tag {
+func (m *TopicResults) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TopicResults.Unmarshal(m, b)
+}
+func (m *TopicResults) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TopicResults.Marshal(b, m, deterministic)
+}
+func (m *TopicResults) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TopicResults.Merge(m, src)
+}
+func (m *TopicResults) XXX_Size() int {
+	return xxx_messageInfo_TopicResults.Size(m)
+}
+func (m *TopicResults) XXX_DiscardUnknown() {
+	xxx_messageInfo_TopicResults.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TopicResults proto.InternalMessageInfo
+
+func (m *TopicResults) GetTopics() []string {
 	if m != nil {
-		return m.Tags
+		return m.Topics
 	}
 	return nil
-}
-
-type CreateTopicResults struct {
-	Topic                *Topic   `protobuf:"bytes,1,opt,name=topic,proto3" json:"topic,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *CreateTopicResults) Reset()         { *m = CreateTopicResults{} }
-func (m *CreateTopicResults) String() string { return proto.CompactTextString(m) }
-func (*CreateTopicResults) ProtoMessage()    {}
-func (*CreateTopicResults) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{8}
-}
-
-func (m *CreateTopicResults) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateTopicResults.Unmarshal(m, b)
-}
-func (m *CreateTopicResults) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateTopicResults.Marshal(b, m, deterministic)
-}
-func (m *CreateTopicResults) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateTopicResults.Merge(m, src)
-}
-func (m *CreateTopicResults) XXX_Size() int {
-	return xxx_messageInfo_CreateTopicResults.Size(m)
-}
-func (m *CreateTopicResults) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateTopicResults.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CreateTopicResults proto.InternalMessageInfo
-
-func (m *CreateTopicResults) GetTopic() *Topic {
-	if m != nil {
-		return m.Topic
-	}
-	return nil
-}
-
-// delete the topic and all messages in it
-type DeleteTopicOptions struct {
-	Pattern              string   `protobuf:"bytes,1,opt,name=pattern,proto3" json:"pattern,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *DeleteTopicOptions) Reset()         { *m = DeleteTopicOptions{} }
-func (m *DeleteTopicOptions) String() string { return proto.CompactTextString(m) }
-func (*DeleteTopicOptions) ProtoMessage()    {}
-func (*DeleteTopicOptions) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{9}
-}
-
-func (m *DeleteTopicOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DeleteTopicOptions.Unmarshal(m, b)
-}
-func (m *DeleteTopicOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DeleteTopicOptions.Marshal(b, m, deterministic)
-}
-func (m *DeleteTopicOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteTopicOptions.Merge(m, src)
-}
-func (m *DeleteTopicOptions) XXX_Size() int {
-	return xxx_messageInfo_DeleteTopicOptions.Size(m)
-}
-func (m *DeleteTopicOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeleteTopicOptions.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DeleteTopicOptions proto.InternalMessageInfo
-
-func (m *DeleteTopicOptions) GetPattern() string {
-	if m != nil {
-		return m.Pattern
-	}
-	return ""
-}
-
-type DeleteTopicResult struct {
-	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Success              bool     `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *DeleteTopicResult) Reset()         { *m = DeleteTopicResult{} }
-func (m *DeleteTopicResult) String() string { return proto.CompactTextString(m) }
-func (*DeleteTopicResult) ProtoMessage()    {}
-func (*DeleteTopicResult) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{10}
-}
-
-func (m *DeleteTopicResult) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_DeleteTopicResult.Unmarshal(m, b)
-}
-func (m *DeleteTopicResult) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_DeleteTopicResult.Marshal(b, m, deterministic)
-}
-func (m *DeleteTopicResult) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeleteTopicResult.Merge(m, src)
-}
-func (m *DeleteTopicResult) XXX_Size() int {
-	return xxx_messageInfo_DeleteTopicResult.Size(m)
-}
-func (m *DeleteTopicResult) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeleteTopicResult.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DeleteTopicResult proto.InternalMessageInfo
-
-func (m *DeleteTopicResult) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *DeleteTopicResult) GetSuccess() bool {
-	if m != nil {
-		return m.Success
-	}
-	return false
-}
-
-type Topic struct {
-	Name                 string        `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Created              string        `protobuf:"bytes,2,opt,name=created,proto3" json:"created,omitempty"`
-	Retention            int64         `protobuf:"varint,3,opt,name=retention,proto3" json:"retention,omitempty"`
-	Description          string        `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	Options              *TopicOptions `protobuf:"bytes,5,opt,name=options,proto3" json:"options,omitempty"`
-	Tags                 []*Tag        `protobuf:"bytes,6,rep,name=tags,proto3" json:"tags,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
-}
-
-func (m *Topic) Reset()         { *m = Topic{} }
-func (m *Topic) String() string { return proto.CompactTextString(m) }
-func (*Topic) ProtoMessage()    {}
-func (*Topic) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{11}
-}
-
-func (m *Topic) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Topic.Unmarshal(m, b)
-}
-func (m *Topic) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Topic.Marshal(b, m, deterministic)
-}
-func (m *Topic) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Topic.Merge(m, src)
-}
-func (m *Topic) XXX_Size() int {
-	return xxx_messageInfo_Topic.Size(m)
-}
-func (m *Topic) XXX_DiscardUnknown() {
-	xxx_messageInfo_Topic.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Topic proto.InternalMessageInfo
-
-func (m *Topic) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-func (m *Topic) GetCreated() string {
-	if m != nil {
-		return m.Created
-	}
-	return ""
-}
-
-func (m *Topic) GetRetention() int64 {
-	if m != nil {
-		return m.Retention
-	}
-	return 0
-}
-
-func (m *Topic) GetDescription() string {
-	if m != nil {
-		return m.Description
-	}
-	return ""
-}
-
-func (m *Topic) GetOptions() *TopicOptions {
-	if m != nil {
-		return m.Options
-	}
-	return nil
-}
-
-func (m *Topic) GetTags() []*Tag {
-	if m != nil {
-		return m.Tags
-	}
-	return nil
-}
-
-type Tag struct {
-	Key                  string   `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	Value                string   `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Tag) Reset()         { *m = Tag{} }
-func (m *Tag) String() string { return proto.CompactTextString(m) }
-func (*Tag) ProtoMessage()    {}
-func (*Tag) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{12}
-}
-
-func (m *Tag) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Tag.Unmarshal(m, b)
-}
-func (m *Tag) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Tag.Marshal(b, m, deterministic)
-}
-func (m *Tag) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Tag.Merge(m, src)
-}
-func (m *Tag) XXX_Size() int {
-	return xxx_messageInfo_Tag.Size(m)
-}
-func (m *Tag) XXX_DiscardUnknown() {
-	xxx_messageInfo_Tag.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Tag proto.InternalMessageInfo
-
-func (m *Tag) GetKey() string {
-	if m != nil {
-		return m.Key
-	}
-	return ""
-}
-
-func (m *Tag) GetValue() string {
-	if m != nil {
-		return m.Value
-	}
-	return ""
-}
-
-type TopicOptions struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *TopicOptions) Reset()         { *m = TopicOptions{} }
-func (m *TopicOptions) String() string { return proto.CompactTextString(m) }
-func (*TopicOptions) ProtoMessage()    {}
-func (*TopicOptions) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{13}
-}
-
-func (m *TopicOptions) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_TopicOptions.Unmarshal(m, b)
-}
-func (m *TopicOptions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_TopicOptions.Marshal(b, m, deterministic)
-}
-func (m *TopicOptions) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TopicOptions.Merge(m, src)
-}
-func (m *TopicOptions) XXX_Size() int {
-	return xxx_messageInfo_TopicOptions.Size(m)
-}
-func (m *TopicOptions) XXX_DiscardUnknown() {
-	xxx_messageInfo_TopicOptions.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_TopicOptions proto.InternalMessageInfo
-
-type Event struct {
-	MsgId                string   `protobuf:"bytes,1,opt,name=msg_id,json=msgId,proto3" json:"msg_id,omitempty"`
-	Msg                  []byte   `protobuf:"bytes,4,opt,name=msg,proto3" json:"msg,omitempty"`
-	Time                 int64    `protobuf:"varint,5,opt,name=time,proto3" json:"time,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Event) Reset()         { *m = Event{} }
-func (m *Event) String() string { return proto.CompactTextString(m) }
-func (*Event) ProtoMessage()    {}
-func (*Event) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{14}
-}
-
-func (m *Event) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Event.Unmarshal(m, b)
-}
-func (m *Event) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Event.Marshal(b, m, deterministic)
-}
-func (m *Event) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Event.Merge(m, src)
-}
-func (m *Event) XXX_Size() int {
-	return xxx_messageInfo_Event.Size(m)
-}
-func (m *Event) XXX_DiscardUnknown() {
-	xxx_messageInfo_Event.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Event proto.InternalMessageInfo
-
-func (m *Event) GetMsgId() string {
-	if m != nil {
-		return m.MsgId
-	}
-	return ""
-}
-
-func (m *Event) GetMsg() []byte {
-	if m != nil {
-		return m.Msg
-	}
-	return nil
-}
-
-func (m *Event) GetTime() int64 {
-	if m != nil {
-		return m.Time
-	}
-	return 0
-}
-
-type Ack struct {
-	MsgId                string   `protobuf:"bytes,2,opt,name=msg_id,json=msgId,proto3" json:"msg_id,omitempty"`
-	Time                 int64    `protobuf:"varint,4,opt,name=time,proto3" json:"time,omitempty"`
-	Success              string   `protobuf:"bytes,5,opt,name=success,proto3" json:"success,omitempty"`
-	ErrorMsg             string   `protobuf:"bytes,6,opt,name=error_msg,json=errorMsg,proto3" json:"error_msg,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Ack) Reset()         { *m = Ack{} }
-func (m *Ack) String() string { return proto.CompactTextString(m) }
-func (*Ack) ProtoMessage()    {}
-func (*Ack) Descriptor() ([]byte, []int) {
-	return fileDescriptor_f209535e190f2bed, []int{15}
-}
-
-func (m *Ack) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Ack.Unmarshal(m, b)
-}
-func (m *Ack) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Ack.Marshal(b, m, deterministic)
-}
-func (m *Ack) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Ack.Merge(m, src)
-}
-func (m *Ack) XXX_Size() int {
-	return xxx_messageInfo_Ack.Size(m)
-}
-func (m *Ack) XXX_DiscardUnknown() {
-	xxx_messageInfo_Ack.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Ack proto.InternalMessageInfo
-
-func (m *Ack) GetMsgId() string {
-	if m != nil {
-		return m.MsgId
-	}
-	return ""
-}
-
-func (m *Ack) GetTime() int64 {
-	if m != nil {
-		return m.Time
-	}
-	return 0
-}
-
-func (m *Ack) GetSuccess() string {
-	if m != nil {
-		return m.Success
-	}
-	return ""
-}
-
-func (m *Ack) GetErrorMsg() string {
-	if m != nil {
-		return m.ErrorMsg
-	}
-	return ""
 }
 
 func init() {
-	proto.RegisterType((*SubscribeOptions)(nil), "lethe.SubscribeOptions")
-	proto.RegisterType((*DispatchOptions)(nil), "lethe.DispatchOptions")
-	proto.RegisterType((*ListTopicOptions)(nil), "lethe.ListTopicOptions")
-	proto.RegisterType((*ListTopicResults)(nil), "lethe.ListTopicResults")
-	proto.RegisterType((*RegistrationRequest)(nil), "lethe.RegistrationRequest")
-	proto.RegisterType((*RegistrationResponse)(nil), "lethe.RegistrationResponse")
-	proto.RegisterType((*ListenOptions)(nil), "lethe.ListenOptions")
-	proto.RegisterType((*CreateTopicOptions)(nil), "lethe.CreateTopicOptions")
-	proto.RegisterType((*CreateTopicResults)(nil), "lethe.CreateTopicResults")
-	proto.RegisterType((*DeleteTopicOptions)(nil), "lethe.DeleteTopicOptions")
-	proto.RegisterType((*DeleteTopicResult)(nil), "lethe.DeleteTopicResult")
-	proto.RegisterType((*Topic)(nil), "lethe.Topic")
-	proto.RegisterType((*Tag)(nil), "lethe.Tag")
-	proto.RegisterType((*TopicOptions)(nil), "lethe.TopicOptions")
-	proto.RegisterType((*Event)(nil), "lethe.Event")
+	proto.RegisterEnum("lethe.StatusCode", StatusCode_name, StatusCode_value)
 	proto.RegisterType((*Ack)(nil), "lethe.Ack")
+	proto.RegisterType((*DispatchAck)(nil), "lethe.DispatchAck")
+	proto.RegisterType((*EventPacket)(nil), "lethe.EventPacket")
+	proto.RegisterType((*Event)(nil), "lethe.Event")
+	proto.RegisterMapType((map[string]string)(nil), "lethe.Event.MetadataEntry")
+	proto.RegisterType((*ListenOptions)(nil), "lethe.ListenOptions")
+	proto.RegisterType((*TopicInfo)(nil), "lethe.TopicInfo")
+	proto.RegisterType((*TopicResults)(nil), "lethe.TopicResults")
 }
 
 func init() {
@@ -827,51 +387,39 @@ func init() {
 }
 
 var fileDescriptor_f209535e190f2bed = []byte{
-	// 704 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x55, 0x4f, 0x4f, 0xdb, 0x4a,
-	0x10, 0x8f, 0x71, 0x6c, 0xe2, 0x49, 0xe0, 0xf1, 0x06, 0x1e, 0x2f, 0xcf, 0xbc, 0xb6, 0xd1, 0xaa,
-	0x87, 0x5c, 0x88, 0x22, 0x7a, 0x28, 0xea, 0xa5, 0xa2, 0x0d, 0x95, 0x2a, 0x15, 0x2a, 0x19, 0xd4,
-	0x2b, 0x72, 0x9c, 0xc1, 0x58, 0x49, 0xec, 0xd4, 0xbb, 0x41, 0xea, 0x37, 0xe8, 0x07, 0xeb, 0x77,
-	0xea, 0xb5, 0xf2, 0xee, 0x3a, 0xd9, 0x38, 0x41, 0xe1, 0xb6, 0xf3, 0x67, 0x7f, 0x33, 0xf3, 0x5b,
-	0xcf, 0xcf, 0xd0, 0x1a, 0xe6, 0xd9, 0x98, 0xf2, 0xde, 0x2c, 0xcf, 0x44, 0x86, 0xce, 0x84, 0xc4,
-	0x03, 0xb1, 0x31, 0x1c, 0xdc, 0xcc, 0x87, 0x3c, 0xca, 0x93, 0x21, 0x7d, 0x9d, 0x89, 0x24, 0x4b,
-	0x39, 0xbe, 0x00, 0x10, 0xd9, 0x2c, 0x89, 0xee, 0xd2, 0x70, 0x4a, 0x6d, 0xab, 0x63, 0x75, 0xbd,
-	0xc0, 0x93, 0x9e, 0xeb, 0x70, 0x4a, 0x78, 0x0e, 0x7b, 0x2a, 0x9c, 0xa9, 0xfc, 0xf6, 0x4e, 0xc7,
-	0xea, 0x36, 0xcf, 0x0e, 0x7b, 0x12, 0xb1, 0x77, 0x5b, 0xc4, 0x34, 0x54, 0xd0, 0x12, 0x86, 0xc5,
-	0xae, 0xe0, 0xaf, 0x41, 0xc2, 0x67, 0xa1, 0x88, 0x1e, 0xca, 0x5a, 0xc7, 0xe0, 0xca, 0x14, 0xde,
-	0xb6, 0x3a, 0x76, 0xd7, 0x0b, 0xb4, 0x85, 0x0c, 0x1c, 0x7a, 0xa4, 0x54, 0x68, 0xf0, 0x96, 0x06,
-	0xbf, 0x2c, 0x7c, 0x81, 0x0a, 0xb1, 0x6b, 0x38, 0xf8, 0x92, 0x70, 0x61, 0x16, 0x44, 0x1f, 0x1a,
-	0xb3, 0x50, 0x08, 0xca, 0x53, 0xae, 0x3b, 0x5f, 0xd8, 0xf8, 0x12, 0xea, 0x22, 0x8c, 0x8b, 0x7e,
-	0xed, 0x6e, 0xf3, 0x0c, 0xca, 0x7e, 0xc3, 0x38, 0x90, 0x7e, 0x76, 0x6e, 0xe0, 0x05, 0xc4, 0xe7,
-	0x13, 0xc1, 0xf1, 0xf5, 0x4a, 0x7f, 0xcb, 0x46, 0x54, 0x92, 0x8e, 0xb1, 0x6f, 0x70, 0x18, 0x50,
-	0x9c, 0x70, 0x91, 0x87, 0x45, 0x1b, 0x01, 0x7d, 0x9f, 0x13, 0x17, 0xf8, 0x0a, 0x9a, 0xd1, 0x24,
-	0xa1, 0x54, 0x98, 0x4c, 0x82, 0x72, 0x49, 0x2a, 0xb7, 0x75, 0xf4, 0x16, 0x8e, 0x56, 0x71, 0xf9,
-	0x2c, 0x4b, 0x39, 0x6d, 0x05, 0x66, 0x9f, 0x60, 0xaf, 0x18, 0x85, 0xd2, 0x67, 0xbe, 0xe9, 0x31,
-	0xb8, 0xd9, 0xfd, 0x3d, 0x27, 0xc5, 0xb7, 0x13, 0x68, 0x8b, 0xfd, 0xb4, 0x00, 0x3f, 0xe6, 0x14,
-	0x0a, 0x5a, 0x61, 0x19, 0xa1, 0x6e, 0xe0, 0xc8, 0x33, 0x76, 0xa0, 0x39, 0xa2, 0xe2, 0x43, 0x92,
-	0x39, 0x12, 0xc7, 0x0b, 0x4c, 0x17, 0xfe, 0x0f, 0x5e, 0x4e, 0x82, 0x52, 0x19, 0xb7, 0x3b, 0x56,
-	0xd7, 0x0e, 0x96, 0x8e, 0x05, 0x17, 0xee, 0x93, 0xaf, 0x63, 0x76, 0x52, 0xbe, 0x0f, 0x03, 0x47,
-	0x4e, 0x21, 0x5b, 0xa9, 0x3e, 0x8f, 0x0a, 0xb1, 0x1e, 0xe0, 0x80, 0x26, 0x54, 0x99, 0xa1, 0x0d,
-	0xbb, 0xfa, 0xcb, 0xd0, 0x63, 0x94, 0x26, 0xbb, 0x80, 0xbf, 0x8d, 0x7c, 0x55, 0x69, 0xe3, 0xc8,
-	0x6d, 0xd8, 0xe5, 0xf3, 0x28, 0x22, 0xae, 0x76, 0xa0, 0x11, 0x94, 0x26, 0xfb, 0x65, 0x81, 0x23,
-	0x6f, 0x3f, 0x75, 0x2f, 0x92, 0xa3, 0x8c, 0x34, 0x4d, 0xa5, 0xb9, 0x85, 0xa2, 0x0a, 0xc5, 0xf5,
-	0x75, 0x8a, 0x4f, 0x61, 0xb7, 0xdc, 0x4a, 0xe7, 0xe9, 0xad, 0x2c, 0x73, 0xb6, 0x72, 0x7e, 0x0a,
-	0xf6, 0x6d, 0x18, 0xe3, 0x01, 0xd8, 0x63, 0xfa, 0xa1, 0x47, 0x28, 0x8e, 0x78, 0x04, 0xce, 0x63,
-	0x38, 0x99, 0x93, 0xee, 0x5f, 0x19, 0x6c, 0x1f, 0x5a, 0x66, 0x1d, 0x36, 0x00, 0x47, 0x2e, 0x2c,
-	0xfe, 0x03, 0xee, 0x94, 0xc7, 0x77, 0xc9, 0x48, 0x63, 0x38, 0x53, 0x1e, 0x7f, 0x1e, 0x15, 0xb8,
-	0x53, 0x1e, 0xcb, 0x39, 0x5a, 0x41, 0x71, 0x2c, 0xd8, 0x12, 0xc9, 0x94, 0x64, 0xf3, 0x76, 0x20,
-	0xcf, 0x2c, 0x06, 0xfb, 0x22, 0x1a, 0x1b, 0x18, 0x3b, 0x26, 0x46, 0x79, 0xa3, 0xbe, 0xbc, 0x61,
-	0xbe, 0x8b, 0xa3, 0xf8, 0xd5, 0x26, 0x9e, 0x80, 0x47, 0x79, 0x9e, 0xe5, 0x77, 0x45, 0x5d, 0x57,
-	0xe9, 0x83, 0x74, 0x5c, 0xf1, 0xf8, 0xec, 0xb7, 0x0d, 0xee, 0x07, 0xa9, 0x91, 0xd8, 0x87, 0x46,
-	0xa9, 0x54, 0x78, 0xac, 0x69, 0xa9, 0x48, 0x97, 0x5f, 0xd2, 0x75, 0x11, 0x8d, 0x59, 0x0d, 0xdf,
-	0xc1, 0x7e, 0x99, 0x70, 0x23, 0x72, 0x0a, 0xa7, 0xcf, 0xbb, 0xd7, 0xb5, 0xfa, 0x16, 0x5e, 0x42,
-	0x43, 0xad, 0x39, 0xe5, 0xe8, 0xeb, 0xe8, 0x06, 0x3d, 0xf1, 0x4f, 0x36, 0xc6, 0x94, 0x26, 0xb0,
-	0x1a, 0x9e, 0x83, 0xb7, 0xd0, 0x72, 0xfc, 0x57, 0xe7, 0x56, 0xd5, 0xdd, 0x5f, 0x91, 0x52, 0xdd,
-	0x40, 0x1f, 0x5c, 0x25, 0x17, 0x78, 0xa4, 0xa3, 0x2b, 0xea, 0x51, 0xbd, 0xd3, 0xb7, 0xf0, 0x3d,
-	0x78, 0x0b, 0xad, 0x5c, 0xd4, 0xaa, 0xaa, 0xb1, 0xbf, 0x16, 0xd0, 0x6b, 0xcb, 0x6a, 0x78, 0x09,
-	0x4d, 0x63, 0x9d, 0xf1, 0x3f, 0x9d, 0xb9, 0x2e, 0x36, 0xfe, 0x86, 0xd0, 0x12, 0x66, 0x00, 0x4d,
-	0x63, 0x57, 0x17, 0x30, 0xeb, 0xfb, 0xee, 0xb7, 0xd7, 0x43, 0x0a, 0x86, 0xd5, 0x86, 0xae, 0xfc,
-	0x27, 0xbe, 0xf9, 0x13, 0x00, 0x00, 0xff, 0xff, 0x29, 0x7e, 0xc0, 0x98, 0x23, 0x07, 0x00, 0x00,
+	// 502 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x53, 0x7f, 0x6b, 0xd3, 0x50,
+	0x14, 0x6d, 0x1a, 0xdb, 0xad, 0x37, 0x5d, 0xad, 0x77, 0x43, 0x4a, 0x50, 0x28, 0x4f, 0x90, 0x30,
+	0xb0, 0xcc, 0xf8, 0x03, 0x51, 0xff, 0xe9, 0xba, 0x28, 0x83, 0x39, 0xe7, 0xcb, 0xea, 0xbf, 0xe5,
+	0x35, 0xbb, 0xba, 0x90, 0x5f, 0x25, 0xef, 0x75, 0xb0, 0x6f, 0xe1, 0x77, 0xf2, 0x8b, 0x49, 0x5e,
+	0x92, 0x9a, 0x82, 0x60, 0xff, 0x7b, 0xf7, 0x9c, 0xf3, 0x4e, 0x6f, 0xcf, 0x3b, 0x81, 0xfe, 0x32,
+	0xcf, 0x22, 0xca, 0x27, 0xab, 0x3c, 0x53, 0x19, 0x76, 0x62, 0x52, 0xb7, 0xc4, 0x38, 0x98, 0xd3,
+	0x20, 0xc2, 0x97, 0x00, 0x52, 0x09, 0xb5, 0x96, 0xb3, 0xec, 0x86, 0x46, 0xc6, 0xd8, 0x70, 0x06,
+	0xee, 0xa3, 0x89, 0x96, 0x4c, 0xfc, 0x0d, 0xc1, 0x1b, 0x22, 0x1c, 0xc1, 0x5e, 0x42, 0x52, 0x8a,
+	0x9f, 0x34, 0x6a, 0x8f, 0x0d, 0xa7, 0xc7, 0xeb, 0x91, 0x5d, 0x81, 0x75, 0x16, 0xca, 0x95, 0x50,
+	0xc1, 0x6d, 0xe1, 0xfd, 0x04, 0x4c, 0x11, 0x44, 0xda, 0xd4, 0x72, 0xa1, 0x32, 0x9d, 0x06, 0x11,
+	0x2f, 0x60, 0x7c, 0x06, 0x07, 0x92, 0xf2, 0x50, 0xc4, 0x8b, 0x74, 0x9d, 0x2c, 0x29, 0xd7, 0x66,
+	0x26, 0xef, 0x97, 0xe0, 0xa5, 0xc6, 0xd8, 0x67, 0xb0, 0xbc, 0x3b, 0x4a, 0xd5, 0x95, 0x08, 0x22,
+	0x52, 0x78, 0x04, 0x1d, 0x95, 0xad, 0xc2, 0x40, 0x7b, 0xf6, 0x78, 0x39, 0x20, 0x83, 0x0e, 0x15,
+	0x22, 0xed, 0x60, 0xb9, 0xfd, 0xea, 0x97, 0xf4, 0x45, 0x5e, 0x52, 0xec, 0x97, 0x01, 0x1d, 0x0d,
+	0x20, 0xc2, 0x83, 0x1b, 0xa1, 0x84, 0xb6, 0xe8, 0x73, 0x7d, 0xc6, 0xb7, 0xb0, 0x9f, 0x90, 0x12,
+	0x1a, 0x6f, 0x8f, 0x4d, 0xc7, 0x72, 0xed, 0xa6, 0xc9, 0xe4, 0x4b, 0x45, 0x7a, 0xa9, 0xca, 0xef,
+	0xf9, 0x46, 0x6b, 0x7f, 0x80, 0x83, 0x2d, 0x0a, 0x87, 0x60, 0x46, 0x74, 0x5f, 0xad, 0x57, 0x1c,
+	0x8b, 0x95, 0xef, 0x44, 0xbc, 0xae, 0xb3, 0x2a, 0x87, 0xf7, 0xed, 0x77, 0x06, 0xf3, 0xe1, 0xe0,
+	0x22, 0x94, 0x8a, 0xd2, 0xaf, 0x2b, 0x15, 0x66, 0xa9, 0xc4, 0xa7, 0x00, 0xfa, 0x0f, 0x2d, 0x52,
+	0x91, 0x50, 0xe5, 0xd1, 0xd3, 0xc8, 0xa5, 0x48, 0x68, 0xb7, 0xc0, 0x8e, 0xa1, 0x77, 0x5d, 0xdc,
+	0x38, 0x4f, 0x7f, 0x64, 0xff, 0x31, 0x64, 0xcf, 0xa1, 0xaf, 0xb5, 0x9c, 0xe4, 0x3a, 0x56, 0x12,
+	0x1f, 0x43, 0x57, 0x93, 0x72, 0x64, 0x8c, 0x4d, 0xa7, 0xc7, 0xab, 0xe9, 0xf8, 0x14, 0xe0, 0x6f,
+	0x15, 0xd0, 0x82, 0x3d, 0x7f, 0x3e, 0x9b, 0x79, 0xbe, 0x3f, 0x6c, 0xe1, 0x21, 0x3c, 0xe4, 0xde,
+	0xb7, 0xb9, 0xe7, 0x5f, 0x2f, 0x3e, 0x4d, 0xcf, 0x2f, 0xe6, 0xdc, 0x1b, 0x1a, 0x88, 0x30, 0xf0,
+	0x3d, 0xfe, 0xdd, 0xe3, 0x1b, 0xac, 0xed, 0xfe, 0x6e, 0x43, 0xf7, 0x54, 0xd7, 0x10, 0x5f, 0xc3,
+	0x7e, 0xdd, 0x12, 0xc4, 0x66, 0xcc, 0xe5, 0x23, 0xdb, 0x35, 0xd6, 0xa8, 0x12, 0x6b, 0xe1, 0x47,
+	0x18, 0xd4, 0x80, 0xaf, 0x72, 0x12, 0xc9, 0xee, 0x77, 0x1d, 0x03, 0x4f, 0xa0, 0x5b, 0x66, 0x8d,
+	0x47, 0x95, 0x62, 0x2b, 0x7a, 0x7b, 0xab, 0x33, 0xac, 0x75, 0x62, 0xe0, 0x0b, 0xb0, 0x66, 0x39,
+	0x09, 0x45, 0x3a, 0x22, 0x1c, 0x56, 0x82, 0x4d, 0xb8, 0x76, 0xa3, 0xd0, 0xac, 0x55, 0xc8, 0xcf,
+	0x28, 0xa6, 0x5d, 0xe5, 0x6f, 0x00, 0x8a, 0x05, 0x34, 0x2d, 0xff, 0xa1, 0x3e, 0x6c, 0x22, 0xd5,
+	0xfb, 0xb0, 0xd6, 0xb2, 0xab, 0x3f, 0xe1, 0x57, 0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0x9b, 0x0b,
+	0xa7, 0x4c, 0xd2, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -886,25 +434,18 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BrokerClient interface {
-	// producers
-	// send an event to one or more topics and receive an ack
-	Dispatch(ctx context.Context, in *DispatchOptions, opts ...grpc.CallOption) (*Ack, error)
+	// send an event to one a topic and receive an ack
+	Dispatch(ctx context.Context, in *EventPacket, opts ...grpc.CallOption) (*DispatchAck, error)
 	// send a stream of events and receive a corresponding stream of acks
 	DispatchStream(ctx context.Context, opts ...grpc.CallOption) (Broker_DispatchStreamClient, error)
-	// consumers
-	// register a client
-	Register(ctx context.Context, in *RegistrationRequest, opts ...grpc.CallOption) (*RegistrationResponse, error)
-	// susbcribe to a topic - tell the sever you want to receive events for a certain topic
-	Subscribe(ctx context.Context, opts ...grpc.CallOption) (Broker_SubscribeClient, error)
 	// listen to a topic for events
 	Listen(ctx context.Context, in *ListenOptions, opts ...grpc.CallOption) (Broker_ListenClient, error)
-	// topics
-	// list topics
-	ListTopic(ctx context.Context, in *ListTopicOptions, opts ...grpc.CallOption) (*ListTopicResults, error)
 	// create new topic
-	CreateTopic(ctx context.Context, in *CreateTopicOptions, opts ...grpc.CallOption) (*CreateTopicResults, error)
+	CreateTopic(ctx context.Context, in *TopicInfo, opts ...grpc.CallOption) (*Ack, error)
 	// delete existing topic
-	DeleteTopic(ctx context.Context, in *DeleteTopicOptions, opts ...grpc.CallOption) (*DeleteTopicResult, error)
+	DeleteTopic(ctx context.Context, in *TopicInfo, opts ...grpc.CallOption) (*Ack, error)
+	// list topics
+	ListTopics(ctx context.Context, in *TopicInfo, opts ...grpc.CallOption) (*TopicResults, error)
 }
 
 type brokerClient struct {
@@ -915,8 +456,8 @@ func NewBrokerClient(cc grpc.ClientConnInterface) BrokerClient {
 	return &brokerClient{cc}
 }
 
-func (c *brokerClient) Dispatch(ctx context.Context, in *DispatchOptions, opts ...grpc.CallOption) (*Ack, error) {
-	out := new(Ack)
+func (c *brokerClient) Dispatch(ctx context.Context, in *EventPacket, opts ...grpc.CallOption) (*DispatchAck, error) {
+	out := new(DispatchAck)
 	err := c.cc.Invoke(ctx, "/lethe.Broker/Dispatch", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -934,8 +475,8 @@ func (c *brokerClient) DispatchStream(ctx context.Context, opts ...grpc.CallOpti
 }
 
 type Broker_DispatchStreamClient interface {
-	Send(*DispatchOptions) error
-	Recv() (*Ack, error)
+	Send(*EventPacket) error
+	CloseAndRecv() (*DispatchAck, error)
 	grpc.ClientStream
 }
 
@@ -943,52 +484,15 @@ type brokerDispatchStreamClient struct {
 	grpc.ClientStream
 }
 
-func (x *brokerDispatchStreamClient) Send(m *DispatchOptions) error {
+func (x *brokerDispatchStreamClient) Send(m *EventPacket) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *brokerDispatchStreamClient) Recv() (*Ack, error) {
-	m := new(Ack)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
+func (x *brokerDispatchStreamClient) CloseAndRecv() (*DispatchAck, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
 		return nil, err
 	}
-	return m, nil
-}
-
-func (c *brokerClient) Register(ctx context.Context, in *RegistrationRequest, opts ...grpc.CallOption) (*RegistrationResponse, error) {
-	out := new(RegistrationResponse)
-	err := c.cc.Invoke(ctx, "/lethe.Broker/Register", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *brokerClient) Subscribe(ctx context.Context, opts ...grpc.CallOption) (Broker_SubscribeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Broker_serviceDesc.Streams[1], "/lethe.Broker/Subscribe", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &brokerSubscribeClient{stream}
-	return x, nil
-}
-
-type Broker_SubscribeClient interface {
-	Send(*SubscribeOptions) error
-	Recv() (*Event, error)
-	grpc.ClientStream
-}
-
-type brokerSubscribeClient struct {
-	grpc.ClientStream
-}
-
-func (x *brokerSubscribeClient) Send(m *SubscribeOptions) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *brokerSubscribeClient) Recv() (*Event, error) {
-	m := new(Event)
+	m := new(DispatchAck)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -996,7 +500,7 @@ func (x *brokerSubscribeClient) Recv() (*Event, error) {
 }
 
 func (c *brokerClient) Listen(ctx context.Context, in *ListenOptions, opts ...grpc.CallOption) (Broker_ListenClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Broker_serviceDesc.Streams[2], "/lethe.Broker/Listen", opts...)
+	stream, err := c.cc.NewStream(ctx, &_Broker_serviceDesc.Streams[1], "/lethe.Broker/Listen", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1027,17 +531,8 @@ func (x *brokerListenClient) Recv() (*Event, error) {
 	return m, nil
 }
 
-func (c *brokerClient) ListTopic(ctx context.Context, in *ListTopicOptions, opts ...grpc.CallOption) (*ListTopicResults, error) {
-	out := new(ListTopicResults)
-	err := c.cc.Invoke(ctx, "/lethe.Broker/ListTopic", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *brokerClient) CreateTopic(ctx context.Context, in *CreateTopicOptions, opts ...grpc.CallOption) (*CreateTopicResults, error) {
-	out := new(CreateTopicResults)
+func (c *brokerClient) CreateTopic(ctx context.Context, in *TopicInfo, opts ...grpc.CallOption) (*Ack, error) {
+	out := new(Ack)
 	err := c.cc.Invoke(ctx, "/lethe.Broker/CreateTopic", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -1045,9 +540,18 @@ func (c *brokerClient) CreateTopic(ctx context.Context, in *CreateTopicOptions, 
 	return out, nil
 }
 
-func (c *brokerClient) DeleteTopic(ctx context.Context, in *DeleteTopicOptions, opts ...grpc.CallOption) (*DeleteTopicResult, error) {
-	out := new(DeleteTopicResult)
+func (c *brokerClient) DeleteTopic(ctx context.Context, in *TopicInfo, opts ...grpc.CallOption) (*Ack, error) {
+	out := new(Ack)
 	err := c.cc.Invoke(ctx, "/lethe.Broker/DeleteTopic", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *brokerClient) ListTopics(ctx context.Context, in *TopicInfo, opts ...grpc.CallOption) (*TopicResults, error) {
+	out := new(TopicResults)
+	err := c.cc.Invoke(ctx, "/lethe.Broker/ListTopics", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1056,54 +560,41 @@ func (c *brokerClient) DeleteTopic(ctx context.Context, in *DeleteTopicOptions, 
 
 // BrokerServer is the server API for Broker service.
 type BrokerServer interface {
-	// producers
-	// send an event to one or more topics and receive an ack
-	Dispatch(context.Context, *DispatchOptions) (*Ack, error)
+	// send an event to one a topic and receive an ack
+	Dispatch(context.Context, *EventPacket) (*DispatchAck, error)
 	// send a stream of events and receive a corresponding stream of acks
 	DispatchStream(Broker_DispatchStreamServer) error
-	// consumers
-	// register a client
-	Register(context.Context, *RegistrationRequest) (*RegistrationResponse, error)
-	// susbcribe to a topic - tell the sever you want to receive events for a certain topic
-	Subscribe(Broker_SubscribeServer) error
 	// listen to a topic for events
 	Listen(*ListenOptions, Broker_ListenServer) error
-	// topics
-	// list topics
-	ListTopic(context.Context, *ListTopicOptions) (*ListTopicResults, error)
 	// create new topic
-	CreateTopic(context.Context, *CreateTopicOptions) (*CreateTopicResults, error)
+	CreateTopic(context.Context, *TopicInfo) (*Ack, error)
 	// delete existing topic
-	DeleteTopic(context.Context, *DeleteTopicOptions) (*DeleteTopicResult, error)
+	DeleteTopic(context.Context, *TopicInfo) (*Ack, error)
+	// list topics
+	ListTopics(context.Context, *TopicInfo) (*TopicResults, error)
 }
 
 // UnimplementedBrokerServer can be embedded to have forward compatible implementations.
 type UnimplementedBrokerServer struct {
 }
 
-func (*UnimplementedBrokerServer) Dispatch(ctx context.Context, req *DispatchOptions) (*Ack, error) {
+func (*UnimplementedBrokerServer) Dispatch(ctx context.Context, req *EventPacket) (*DispatchAck, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Dispatch not implemented")
 }
 func (*UnimplementedBrokerServer) DispatchStream(srv Broker_DispatchStreamServer) error {
 	return status.Errorf(codes.Unimplemented, "method DispatchStream not implemented")
 }
-func (*UnimplementedBrokerServer) Register(ctx context.Context, req *RegistrationRequest) (*RegistrationResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
-}
-func (*UnimplementedBrokerServer) Subscribe(srv Broker_SubscribeServer) error {
-	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
-}
 func (*UnimplementedBrokerServer) Listen(req *ListenOptions, srv Broker_ListenServer) error {
 	return status.Errorf(codes.Unimplemented, "method Listen not implemented")
 }
-func (*UnimplementedBrokerServer) ListTopic(ctx context.Context, req *ListTopicOptions) (*ListTopicResults, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListTopic not implemented")
-}
-func (*UnimplementedBrokerServer) CreateTopic(ctx context.Context, req *CreateTopicOptions) (*CreateTopicResults, error) {
+func (*UnimplementedBrokerServer) CreateTopic(ctx context.Context, req *TopicInfo) (*Ack, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTopic not implemented")
 }
-func (*UnimplementedBrokerServer) DeleteTopic(ctx context.Context, req *DeleteTopicOptions) (*DeleteTopicResult, error) {
+func (*UnimplementedBrokerServer) DeleteTopic(ctx context.Context, req *TopicInfo) (*Ack, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTopic not implemented")
+}
+func (*UnimplementedBrokerServer) ListTopics(ctx context.Context, req *TopicInfo) (*TopicResults, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTopics not implemented")
 }
 
 func RegisterBrokerServer(s *grpc.Server, srv BrokerServer) {
@@ -1111,7 +602,7 @@ func RegisterBrokerServer(s *grpc.Server, srv BrokerServer) {
 }
 
 func _Broker_Dispatch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DispatchOptions)
+	in := new(EventPacket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1123,7 +614,7 @@ func _Broker_Dispatch_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: "/lethe.Broker/Dispatch",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrokerServer).Dispatch(ctx, req.(*DispatchOptions))
+		return srv.(BrokerServer).Dispatch(ctx, req.(*EventPacket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1133,8 +624,8 @@ func _Broker_DispatchStream_Handler(srv interface{}, stream grpc.ServerStream) e
 }
 
 type Broker_DispatchStreamServer interface {
-	Send(*Ack) error
-	Recv() (*DispatchOptions, error)
+	SendAndClose(*DispatchAck) error
+	Recv() (*EventPacket, error)
 	grpc.ServerStream
 }
 
@@ -1142,56 +633,12 @@ type brokerDispatchStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *brokerDispatchStreamServer) Send(m *Ack) error {
+func (x *brokerDispatchStreamServer) SendAndClose(m *DispatchAck) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *brokerDispatchStreamServer) Recv() (*DispatchOptions, error) {
-	m := new(DispatchOptions)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func _Broker_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegistrationRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BrokerServer).Register(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/lethe.Broker/Register",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrokerServer).Register(ctx, req.(*RegistrationRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Broker_Subscribe_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(BrokerServer).Subscribe(&brokerSubscribeServer{stream})
-}
-
-type Broker_SubscribeServer interface {
-	Send(*Event) error
-	Recv() (*SubscribeOptions, error)
-	grpc.ServerStream
-}
-
-type brokerSubscribeServer struct {
-	grpc.ServerStream
-}
-
-func (x *brokerSubscribeServer) Send(m *Event) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *brokerSubscribeServer) Recv() (*SubscribeOptions, error) {
-	m := new(SubscribeOptions)
+func (x *brokerDispatchStreamServer) Recv() (*EventPacket, error) {
+	m := new(EventPacket)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -1219,26 +666,8 @@ func (x *brokerListenServer) Send(m *Event) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _Broker_ListTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListTopicOptions)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BrokerServer).ListTopic(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/lethe.Broker/ListTopic",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrokerServer).ListTopic(ctx, req.(*ListTopicOptions))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Broker_CreateTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTopicOptions)
+	in := new(TopicInfo)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1250,13 +679,13 @@ func _Broker_CreateTopic_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/lethe.Broker/CreateTopic",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrokerServer).CreateTopic(ctx, req.(*CreateTopicOptions))
+		return srv.(BrokerServer).CreateTopic(ctx, req.(*TopicInfo))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Broker_DeleteTopic_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteTopicOptions)
+	in := new(TopicInfo)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1268,7 +697,25 @@ func _Broker_DeleteTopic_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/lethe.Broker/DeleteTopic",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrokerServer).DeleteTopic(ctx, req.(*DeleteTopicOptions))
+		return srv.(BrokerServer).DeleteTopic(ctx, req.(*TopicInfo))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Broker_ListTopics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TopicInfo)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServer).ListTopics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lethe.Broker/ListTopics",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServer).ListTopics(ctx, req.(*TopicInfo))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1282,14 +729,6 @@ var _Broker_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Broker_Dispatch_Handler,
 		},
 		{
-			MethodName: "Register",
-			Handler:    _Broker_Register_Handler,
-		},
-		{
-			MethodName: "ListTopic",
-			Handler:    _Broker_ListTopic_Handler,
-		},
-		{
 			MethodName: "CreateTopic",
 			Handler:    _Broker_CreateTopic_Handler,
 		},
@@ -1297,18 +736,15 @@ var _Broker_serviceDesc = grpc.ServiceDesc{
 			MethodName: "DeleteTopic",
 			Handler:    _Broker_DeleteTopic_Handler,
 		},
+		{
+			MethodName: "ListTopics",
+			Handler:    _Broker_ListTopics_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "DispatchStream",
 			Handler:       _Broker_DispatchStream_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "Subscribe",
-			Handler:       _Broker_Subscribe_Handler,
-			ServerStreams: true,
 			ClientStreams: true,
 		},
 		{
