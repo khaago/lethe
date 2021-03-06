@@ -36,14 +36,7 @@ func Run() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	var opts []grpc.ServerOption
-	if *tls {
-		// TODO auth
-		// if *certFile == "" {
-		// 	*certFile = testdata.Path("server1.pem")
-		// }
-		// if *keyFile == "" {
-		// 	*keyFile = testdata.Path("server1.key")
-		// }
+	if *tls {		// TODO make auth mandatory
 		creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
 		if err != nil {
 			log.Fatalf("Failed to generate credentials %v", err)

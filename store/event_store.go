@@ -6,10 +6,6 @@ import (
 	pb "github.com/khaago/lethe/broker"
 )
 
-// var data map[string][]*pb.Event
-// var topics map[string]*pb.Topic
-// var acks []*pb.Ack
-
 // Init starts the store
 func Init() {
 	// data = make(map[string][]*pb.Event)
@@ -18,12 +14,19 @@ func Init() {
 	log.Printf("Store started")
 }
 
-// Save saves an event
-func Save(event *pb.Event) error {
-	return nil
+// SaveEvent saves an event and returns the serial number
+func (store *Store) SaveEvent(event *pb.Event, topicName string) (int64, error) {
+	return 0,nil
 }
 
-// GetEvents gets events
-func GetEvents(opts *pb.ListenOptions) ([]*pb.Event, error) {
+// GetEvent returns an event at a given serial number
+func (store *Store) GetEvent(serialNumber int64, topicName string) (*pb.Event, error) {
 	return nil, nil
 }
+
+// GetEventsSince returns all events with a serial number greater than provided
+func GetEventsSince(serialNumber int64, topicName string) ([]*pb.Event, error) {
+	return nil, nil
+}
+
+
